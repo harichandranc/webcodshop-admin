@@ -17,6 +17,8 @@ function DashboardPage() {
 
   totalRevenue: 0,
   completedRevenue: 0,
+
+  recentOrders: [],
 });
 
   const [loading, setLoading] =
@@ -217,6 +219,58 @@ function DashboardPage() {
       ? "..."
       : stats.completedRevenue}
   </h2>
+</div>
+
+<div
+  style={{
+    background: "#fff",
+    padding: "20px",
+    borderRadius: "10px",
+    marginTop: "20px",
+  }}
+>
+  <h2>Recent Orders</h2>
+
+  <table
+    style={{
+      width: "100%",
+      marginTop: "15px",
+      borderCollapse: "collapse",
+    }}
+  >
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Product</th>
+        <th>Amount</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {stats.recentOrders?.map(
+        (order) => (
+          <tr key={order._id}>
+            <td>
+              {order.customerName}
+            </td>
+
+            <td>
+              {order.productTitle}
+            </td>
+
+            <td>
+              ₹{order.amount}
+            </td>
+
+            <td>
+              {order.status}
+            </td>
+          </tr>
+        )
+      )}
+    </tbody>
+  </table>
 </div>
       </div>
     </AdminLayout>
