@@ -13,12 +13,14 @@ export default function ProductForm({
     price: "",
     description: "",
     previewUrl: "",
+    downloadFile: "",
     type: "template",
     isFeatured: false,
     isActive: true,
   });
 
   const [imageFile, setImageFile] = useState(null);
+  const [downloadUpload, setDownloadUpload] = useState(null);
 
   useEffect(() => {
     if (!initialData) return;
@@ -30,6 +32,7 @@ export default function ProductForm({
       price: initialData.price || "",
       description: initialData.description || "",
       previewUrl: initialData.previewUrl || "",
+      downloadFile: initialData.downloadFile || "",
       type: initialData.type || "template",
       isFeatured: initialData.isFeatured || false,
       isActive: initialData.isActive ?? true,
@@ -54,6 +57,7 @@ export default function ProductForm({
     onSubmit({
       ...formData,
       imageFile,
+      downloadUpload,
     });
   };
 
@@ -127,6 +131,35 @@ export default function ProductForm({
           onChange={handleChange}
         />
       </div>
+
+      <div className="form-group">
+  <label>
+    Download File
+  </label>
+
+  <input
+    type="file"
+    accept=".zip,.rar,.7z,.pdf"
+    onChange={(e) =>
+      setDownloadUpload(
+        e.target.files[0]
+      )
+    }
+  />
+
+  {initialData?.downloadFile && (
+    <p
+      style={{
+        marginTop: "8px",
+        fontSize: "14px",
+      }}
+    >
+      Current File:
+      {" "}
+      {initialData.downloadFile}
+    </p>
+  )}
+</div>
 
       <div className="form-group">
         <label>Type</label>

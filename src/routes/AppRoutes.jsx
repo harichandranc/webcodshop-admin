@@ -6,6 +6,7 @@ import ProductsPage from "../pages/ProductsPage";
 import CategoriesPage from "../pages/CategoriesPage";
 import OrdersPage from "../pages/OrdersPage";
 import CustomersPage from "../pages/CustomersPage";
+import CouponsPage from "../pages/CouponsPage";
 
 import ProtectedRoute from "../components/ProtectedRoute";
 
@@ -58,6 +59,15 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <CustomersPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/coupons"
+        element={
+          <ProtectedRoute>
+            <CouponsPage />
           </ProtectedRoute>
         }
       />

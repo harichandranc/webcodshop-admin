@@ -70,6 +70,16 @@ function Sidebar() {
         Customers
       </Link>
 
+      <Link
+        to="/coupons"
+        style={{
+          color: "#fff",
+          textDecoration: "none",
+        }}
+      >
+        Coupons
+      </Link>
+
         
 
       </div>
