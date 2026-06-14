@@ -4,22 +4,22 @@ import { getDashboardStats } from "../services/dashboardService";
 
 function DashboardPage() {
   const [stats, setStats] = useState({
-  totalProducts: 0,
-  activeProducts: 0,
-  inactiveProducts: 0,
-  featuredProducts: 0,
-  totalCategories: 0,
+    totalProducts: 0,
+    activeProducts: 0,
+    inactiveProducts: 0,
+    featuredProducts: 0,
+    totalCategories: 0,
 
-  totalOrders: 0,
-  pendingOrders: 0,
-  paidOrders: 0,
-  completedOrders: 0,
+    totalOrders: 0,
+    pendingOrders: 0,
+    paidOrders: 0,
+    completedOrders: 0,
 
-  totalRevenue: 0,
-  completedRevenue: 0,
+    totalRevenue: 0,
+    completedRevenue: 0,
 
-  recentOrders: [],
-});
+    recentOrders: [],
+  });
 
   const [loading, setLoading] =
     useState(true);
@@ -130,148 +130,216 @@ function DashboardPage() {
         </div>
 
         <div
-  style={{
-    background: "#fff",
-    padding: "20px",
-    borderRadius: "10px",
-  }}
->
-  <h3>Total Orders</h3>
-  <h2>
-    {loading
-      ? "..."
-      : stats.totalOrders}
-  </h2>
-</div>
+          style={{
+            background: "#fff",
+            padding: "20px",
+            borderRadius: "10px",
+          }}
+        >
+          <h3>Total Orders</h3>
+          <h2>
+            {loading
+              ? "..."
+              : stats.totalOrders}
+          </h2>
+        </div>
 
-<div
-  style={{
-    background: "#fff",
-    padding: "20px",
-    borderRadius: "10px",
-  }}
->
-  <h3>Pending Orders</h3>
-  <h2>
-    {loading
-      ? "..."
-      : stats.pendingOrders}
-  </h2>
-</div>
+        <div
+          style={{
+            background: "#fff",
+            padding: "20px",
+            borderRadius: "10px",
+          }}
+        >
+          <h3>Pending Orders</h3>
+          <h2>
+            {loading
+              ? "..."
+              : stats.pendingOrders}
+          </h2>
+        </div>
 
-<div
-  style={{
-    background: "#fff",
-    padding: "20px",
-    borderRadius: "10px",
-  }}
->
-  <h3>Paid Orders</h3>
-  <h2>
-    {loading
-      ? "..."
-      : stats.paidOrders}
-  </h2>
-</div>
+        <div
+          style={{
+            background: "#fff",
+            padding: "20px",
+            borderRadius: "10px",
+          }}
+        >
+          <h3>Paid Orders</h3>
+          <h2>
+            {loading
+              ? "..."
+              : stats.paidOrders}
+          </h2>
+        </div>
 
-<div
-  style={{
-    background: "#fff",
-    padding: "20px",
-    borderRadius: "10px",
-  }}
->
-  <h3>Completed Orders</h3>
-  <h2>
-    {loading
-      ? "..."
-      : stats.completedOrders}
-  </h2>
-</div>
+        <div
+          style={{
+            background: "#fff",
+            padding: "20px",
+            borderRadius: "10px",
+          }}
+        >
+          <h3>Completed Orders</h3>
+          <h2>
+            {loading
+              ? "..."
+              : stats.completedOrders}
+          </h2>
+        </div>
 
-<div
-  style={{
-    background: "#fff",
-    padding: "20px",
-    borderRadius: "10px",
-  }}
->
-  <h3>Total Revenue</h3>
-  <h2>
-    ₹
-    {loading
-      ? "..."
-      : stats.totalRevenue}
-  </h2>
-</div>
+        <div
+          style={{
+            background: "#fff",
+            padding: "20px",
+            borderRadius: "10px",
+          }}
+        >
+          <h3>Total Revenue</h3>
+          <h2>
+            ₹
+            {loading
+              ? "..."
+              : stats.totalRevenue}
+          </h2>
+        </div>
 
-<div
-  style={{
-    background: "#fff",
-    padding: "20px",
-    borderRadius: "10px",
-  }}
->
-  <h3>Completed Revenue</h3>
-  <h2>
-    ₹
-    {loading
-      ? "..."
-      : stats.completedRevenue}
-  </h2>
-</div>
+        <div
+          style={{
+            background: "#fff",
+            padding: "20px",
+            borderRadius: "10px",
+          }}
+        >
+          <h3>Completed Revenue</h3>
+          <h2>
+            ₹
+            {loading
+              ? "..."
+              : stats.completedRevenue}
+          </h2>
+        </div>
+      </div>
 
-<div
-  style={{
-    background: "#fff",
-    padding: "20px",
-    borderRadius: "10px",
-    marginTop: "20px",
-  }}
->
-  <h2>Recent Orders</h2>
+      <div
+        style={{
+          background: "#fff",
+          padding: "20px",
+          borderRadius: "10px",
+          marginTop: "20px",
+        }}
+      >
+        <h2>Recent Orders</h2>
 
-  <table
-    style={{
-      width: "100%",
-      marginTop: "15px",
-      borderCollapse: "collapse",
-    }}
-  >
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Product</th>
-        <th>Amount</th>
-        <th>Status</th>
-      </tr>
-    </thead>
+        {stats.recentOrders?.length ===
+        0 ? (
+          <p>No recent orders.</p>
+        ) : (
+          <table
+            style={{
+              width: "100%",
+              marginTop: "15px",
+              borderCollapse:
+                "collapse",
+            }}
+          >
+            <thead>
+              <tr>
+                <th
+                  style={{
+                    textAlign: "left",
+                    padding: "10px",
+                  }}
+                >
+                  Customer
+                </th>
 
-    <tbody>
-      {stats.recentOrders?.map(
-        (order) => (
-          <tr key={order._id}>
-            <td>
-              {order.customerName}
-            </td>
+                <th
+                  style={{
+                    textAlign: "left",
+                    padding: "10px",
+                  }}
+                >
+                  Product
+                </th>
 
-            <td>
-              {order.productTitle}
-            </td>
+                <th
+                  style={{
+                    textAlign: "left",
+                    padding: "10px",
+                  }}
+                >
+                  Amount
+                </th>
 
-            <td>
-              ₹{order.amount}
-            </td>
+                <th
+                  style={{
+                    textAlign: "left",
+                    padding: "10px",
+                  }}
+                >
+                  Status
+                </th>
+              </tr>
+            </thead>
 
-            <td>
-              {order.status}
-            </td>
-          </tr>
-        )
-      )}
-    </tbody>
-  </table>
-</div>
+            <tbody>
+              {stats.recentOrders?.map(
+                (order) => (
+                  <tr
+                    key={order._id}
+                  >
+                    <td
+                      style={{
+                        padding:
+                          "10px",
+                      }}
+                    >
+                      {
+                        order.customerName
+                      }
+                    </td>
+
+                    <td
+                      style={{
+                        padding:
+                          "10px",
+                      }}
+                    >
+                      {
+                        order.productTitle
+                      }
+                    </td>
+
+                    <td
+                      style={{
+                        padding:
+                          "10px",
+                      }}
+                    >
+                      ₹
+                      {
+                        order.amount
+                      }
+                    </td>
+
+                    <td
+                      style={{
+                        padding:
+                          "10px",
+                      }}
+                    >
+                      {
+                        order.status
+                      }
+                    </td>
+                  </tr>
+                )
+              )}
+            </tbody>
+          </table>
+        )}
       </div>
     </AdminLayout>
   );
