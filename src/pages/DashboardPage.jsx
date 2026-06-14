@@ -9,10 +9,14 @@ function DashboardPage() {
   inactiveProducts: 0,
   featuredProducts: 0,
   totalCategories: 0,
+
   totalOrders: 0,
   pendingOrders: 0,
   paidOrders: 0,
   completedOrders: 0,
+
+  totalRevenue: 0,
+  completedRevenue: 0,
 });
 
   const [loading, setLoading] =
@@ -180,6 +184,38 @@ function DashboardPage() {
     {loading
       ? "..."
       : stats.completedOrders}
+  </h2>
+</div>
+
+<div
+  style={{
+    background: "#fff",
+    padding: "20px",
+    borderRadius: "10px",
+  }}
+>
+  <h3>Total Revenue</h3>
+  <h2>
+    ₹
+    {loading
+      ? "..."
+      : stats.totalRevenue}
+  </h2>
+</div>
+
+<div
+  style={{
+    background: "#fff",
+    padding: "20px",
+    borderRadius: "10px",
+  }}
+>
+  <h3>Completed Revenue</h3>
+  <h2>
+    ₹
+    {loading
+      ? "..."
+      : stats.completedRevenue}
   </h2>
 </div>
       </div>
