@@ -91,3 +91,34 @@ export const uploadImage = async (
 
   return response.data;
 };
+
+export const uploadDownloadFile =
+  async (file) => {
+    const token =
+      localStorage.getItem(
+        "token"
+      );
+
+    const formData =
+      new FormData();
+
+    formData.append(
+      "file",
+      file
+    );
+
+    const response =
+      await axios.post(
+        `${API_URL}/api/upload/download`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type":
+              "multipart/form-data",
+          },
+        }
+      );
+
+    return response.data;
+  };

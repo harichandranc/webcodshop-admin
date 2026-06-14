@@ -9,6 +9,7 @@ import {
   getProducts,
   createProduct,
   uploadImage,
+  uploadDownloadFile,
   updateProduct,
   deleteProduct,
 } from "../api/productApi";
@@ -71,6 +72,7 @@ function ProductsPage() {
         setCreating(true);
 
         let imageUrl = "";
+        let downloadFile = "";
 
         if (data.imageFile) {
           const uploadRes =
@@ -82,21 +84,28 @@ function ProductsPage() {
             uploadRes.imageUrl;
         }
 
+        if (data.downloadUpload) {
+          const uploadRes =
+            await uploadDownloadFile(
+              data.downloadUpload
+            );
+
+          downloadFile =
+            uploadRes.fileUrl;
+        }
+
         await createProduct({
           title: data.title,
           image: imageUrl,
           category: data.category,
           price: Number(data.price),
-          description:
-            data.description,
-          previewUrl:
-            data.previewUrl,
+          description: data.description,
+          previewUrl: data.previewUrl,
+          downloadFile,
           type: data.type,
-          isFeatured:
-            data.isFeatured,
-          isActive:
-            data.isActive,
-        });
+          isFeatured: data.isFeatured,
+          isActive: data.isActive,
+       });
 
         await fetchProducts();
 
@@ -125,6 +134,9 @@ function ProductsPage() {
       let imageUrl =
         editingProduct.image || "";
 
+      let downloadFile =
+        editingProduct.downloadFile || "";
+
       if (data.imageFile) {
         const uploadRes =
           await uploadImage(
@@ -134,6 +146,16 @@ function ProductsPage() {
         imageUrl =
           uploadRes.imageUrl;
       }
+
+      if (data.downloadUpload) {
+        const uploadRes =
+          await uploadDownloadFile(
+            data.downloadUpload
+          );
+
+        downloadFile =
+          uploadRes.fileUrl;
+    }
 
       await updateProduct(
         editingProduct._id,
@@ -145,7 +167,7 @@ function ProductsPage() {
           description:
             data.description,
           previewUrl:
-            data.previewUrl,
+            data.previewUrl, downloadFile,
           type: data.type,
           isFeatured:
             data.isFeatured,
