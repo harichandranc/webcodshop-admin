@@ -80,6 +80,26 @@ function Sidebar() {
         Coupons
       </Link>
 
+      <Link
+        to="/banners"
+        style={{
+          color: "#fff",
+          textDecoration: "none",
+       }}
+      >
+        Banners
+      </Link>
+
+      <Link
+        to="/settings"
+        style={{
+          color: "#fff",
+          textDecoration: "none",
+       }}
+     >
+        Settings
+      </Link>
+
         
 
       </div>

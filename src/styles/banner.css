@@ -1,0 +1,237 @@
+.banner-page {
+  padding: 24px;
+}
+
+.banner-page-header {
+  margin-bottom: 24px;
+}
+
+.banner-page-header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.banner-form-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.banner-form {
+  display: grid;
+  gap: 16px;
+}
+
+.banner-form input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.banner-form input:focus {
+  border-color: #2563eb;
+}
+
+.banner-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.banner-checkbox input {
+  width: auto;
+}
+
+.banner-submit-btn {
+  width: fit-content;
+  padding: 12px 20px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.banner-submit-btn:hover {
+  background: #1d4ed8;
+}
+
+.banner-submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.banner-list {
+  display: grid;
+  gap: 16px;
+}
+
+.banner-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.banner-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.banner-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.banner-status {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.banner-status.active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.banner-status.inactive {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.banner-meta {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.banner-image {
+  margin-top: 12px;
+  width: 100%;
+  max-width: 300px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  display: block;
+}
+
+.banner-actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+}
+
+.banner-edit-btn {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.banner-edit-btn:hover {
+  background: #1d4ed8;
+}
+
+.banner-delete-btn {
+  background: #dc2626;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.banner-delete-btn:hover {
+  background: #b91c1c;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  background: #ffffff;
+  border: 1px dashed #d1d5db;
+  border-radius: 12px;
+  color: #6b7280;
+}
+
+/* EDIT MODAL */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 600px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.modal-content h3 {
+  margin: 0;
+  color: #111827;
+}
+
+.modal-content button {
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .banner-page {
+    padding: 16px;
+  }
+
+  .banner-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .banner-meta {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .banner-actions {
+    width: 100%;
+  }
+
+  .banner-edit-btn,
+  .banner-delete-btn {
+    flex: 1;
+  }
+
+  .modal-content {
+    margin: 16px;
+    max-width: none;
+  }
+}

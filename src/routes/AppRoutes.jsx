@@ -7,6 +7,8 @@ import CategoriesPage from "../pages/CategoriesPage";
 import OrdersPage from "../pages/OrdersPage";
 import CustomersPage from "../pages/CustomersPage";
 import CouponsPage from "../pages/CouponsPage";
+import BannersPage from "../pages/BannersPage";
+import SettingsPage from "../pages/SettingsPage";
 
 import ProtectedRoute from "../components/ProtectedRoute";
 
@@ -68,6 +70,24 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <CouponsPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/banners"
+        element={
+          <ProtectedRoute>
+            <BannersPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/settings"
+        element={
+          <ProtectedRoute>
+            <SettingsPage />
           </ProtectedRoute>
         }
       />

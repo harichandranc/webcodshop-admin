@@ -1,0 +1,38 @@
+.settings-page {
+  padding: 24px;
+}
+
+.settings-page h1 {
+  margin-bottom: 20px;
+}
+
+.settings-form {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+
+  display: grid;
+  gap: 16px;
+}
+
+.settings-form input,
+.settings-form textarea {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+
+.settings-form textarea {
+  min-height: 120px;
+}
+
+.settings-form button {
+  width: fit-content;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+}
