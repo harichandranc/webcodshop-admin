@@ -186,25 +186,23 @@ export default function ProductForm({
         />
       </div>
 
-      {formData.category ===
-        "Templates" && (
-        <div className="form-group">
-          <label>
-            Preview URL
-          </label>
+      <div className="form-group">
+        <label>
+            Preview Video URL
+        </label>
 
-          <input
-            type="text"
-            name="previewUrl"
-            value={
-              formData.previewUrl
-            }
-            onChange={
-              handleChange
-            }
+        <input
+          type="text"
+          name="previewUrl"
+          value={
+            formData.previewUrl
+          }
+          onChange={
+            handleChange
+          }
           />
-        </div>
-      )}
+      </div>
+  
 
       <div className="form-group">
         <label>
