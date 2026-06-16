@@ -1,37 +1,25 @@
 import { useEffect, useState } from "react";
-
 import AdminLayout from "../layouts/AdminLayout";
+import "../styles/customers.css";
 
-import {
-  getCustomers,
-} from "../api/customerApi";
+import { getCustomers } from "../api/customerApi";
 
 function CustomersPage() {
-  const [customers, setCustomers] =
-    useState([]);
+  const [customers, setCustomers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const [loading, setLoading] =
-    useState(true);
-
-  const fetchCustomers =
-    async () => {
-      try {
-        setLoading(true);
-
-        const data =
-          await getCustomers();
-
-        setCustomers(data);
-      } catch (error) {
-        console.error(error);
-
-        alert(
-          "Failed to load customers"
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchCustomers = async () => {
+    try {
+      setLoading(true);
+      const data = await getCustomers();
+      setCustomers(data);
+    } catch (error) {
+      console.error(error);
+      alert("Failed to load customers");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchCustomers();
@@ -39,163 +27,68 @@ function CustomersPage() {
 
   return (
     <AdminLayout>
-      <h1>Customers</h1>
+      <div className="customers-page">
 
-      {loading && (
-        <p>Loading customers...</p>
-      )}
+        {/* HEADER */}
+        <div className="customers-header">
+          <h1>Customers</h1>
+        </div>
 
-      {!loading &&
-        customers.length === 0 && (
-          <p>No customers found.</p>
+        {/* STATES */}
+        {loading && <p className="muted">Loading customers...</p>}
+
+        {!loading && customers.length === 0 && (
+          <p className="muted">No customers found.</p>
         )}
 
-      {!loading &&
-        customers.length > 0 && (
-          <div
-            style={{
-              background: "#fff",
-              borderRadius: "10px",
-              overflow: "hidden",
-              marginTop: "20px",
-            }}
-          >
-            <table
-              style={{
-                width: "100%",
-                borderCollapse:
-                  "collapse",
-              }}
-            >
+        {/* TABLE */}
+        {!loading && customers.length > 0 && (
+          <div className="table-card">
+            <table className="table">
               <thead>
-                <tr
-                  style={{
-                    background:
-                      "#f3f4f6",
-                  }}
-                >
-                  <th
-                    style={{
-                      padding: "12px",
-                      textAlign:
-                        "left",
-                    }}
-                  >
-                    Name
-                  </th>
-
-                  <th
-                    style={{
-                      padding: "12px",
-                      textAlign:
-                        "left",
-                    }}
-                  >
-                    Email
-                  </th>
-
-                  <th
-                    style={{
-                      padding: "12px",
-                      textAlign:
-                        "left",
-                    }}
-                  >
-                    Orders
-                  </th>
-
-                  <th
-                    style={{
-                      padding: "12px",
-                      textAlign:
-                        "left",
-                    }}
-                  >
-                    Total Spend
-                  </th>
-
-                  <th
-                    style={{
-                      padding: "12px",
-                      textAlign:
-                        "left",
-                    }}
-                  >
-                    Last Order
-                  </th>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Orders</th>
+                  <th>Total Spend</th>
+                  <th>Last Order</th>
                 </tr>
               </thead>
 
               <tbody>
-                {customers.map(
-                  (customer) => (
-                    <tr
-                      key={
-                        customer._id
-                      }
-                    >
-                      <td
-                        style={{
-                          padding:
-                            "12px",
-                        }}
-                      >
-                        {
-                          customer.customerName
-                        }
-                      </td>
+                {customers.map((customer) => (
+                  <tr key={customer._id}>
+                    <td>{customer.customerName}</td>
 
-                      <td
-                        style={{
-                          padding:
-                            "12px",
-                        }}
-                      >
-                        {
-                          customer.customerEmail
-                        }
-                      </td>
+                    <td className="muted">
+                      {customer.customerEmail}
+                    </td>
 
-                      <td
-                        style={{
-                          padding:
-                            "12px",
-                        }}
-                      >
-                        {
-                          customer.totalOrders
-                        }
-                      </td>
+                    <td>
+                      <span className="badge info">
+                        {customer.totalOrders}
+                      </span>
+                    </td>
 
-                      <td
-                        style={{
-                          padding:
-                            "12px",
-                        }}
-                      >
-                        ₹
-                        {
-                          customer.totalSpend
-                        }
-                      </td>
+                    <td className="highlight">
+                      ₹{customer.totalSpend}
+                    </td>
 
-                      <td
-                        style={{
-                          padding:
-                            "12px",
-                        }}
-                      >
-                        {new Date(
-                          customer.lastOrderDate
-                        ).toLocaleDateString()}
-                      </td>
-                    </tr>
-                  )
-                )}
+                    <td className="muted">
+                      {customer.lastOrderDate
+                        ? new Date(
+                            customer.lastOrderDate
+                          ).toLocaleDateString()
+                        : "-"}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         )}
+
+      </div>
     </AdminLayout>
   );
 }
