@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "../styles/product-form.css";
 
 export default function ProductForm({
   onSubmit,
@@ -7,42 +6,90 @@ export default function ProductForm({
   initialData = null,
   categories = [],
 }) {
-  const [formData, setFormData] = useState({
-    title: "",
-    category: "",
-    price: "",
-    description: "",
-    previewUrl: "",
-    setupGuide: "",
-    isFeatured: false,
-    isActive: true,
-  });
+  const [formData, setFormData] =
+    useState({
+      title: "",
+      category: "",
+      price: "",
+      description: "",
+      previewUrl: "",
+      downloadFile: "",
+      projectReport: "",
+      setupGuide: "",
+      isFeatured: false,
+      isActive: true,
+    });
 
-  const [imageFiles, setImageFiles] = useState([]);
-  const [downloadUpload, setDownloadUpload] = useState(null);
-  const [projectReportUpload, setProjectReportUpload] = useState(null);
+  const [imageFiles, setImageFiles] =
+    useState([]);
+
+  const [
+    downloadUpload,
+    setDownloadUpload,
+  ] = useState(null);
+
+  const [
+    projectReportUpload,
+    setProjectReportUpload,
+  ] = useState(null);
 
   useEffect(() => {
     if (!initialData) return;
 
     setFormData({
-      title: initialData.title || "",
-      category: initialData.category || "",
-      price: initialData.price || "",
-      description: initialData.description || "",
-      previewUrl: initialData.previewUrl || "",
-      setupGuide: initialData.setupGuide || "",
-      isFeatured: initialData.isFeatured || false,
-      isActive: initialData.isActive ?? true,
+      title:
+        initialData.title || "",
+
+      category:
+        initialData.category || "",
+
+      price:
+        initialData.price || "",
+
+      description:
+        initialData.description ||
+        "",
+
+      previewUrl:
+        initialData.previewUrl ||
+        "",
+
+      downloadFile:
+        initialData.downloadFile ||
+        "",
+
+      projectReport:
+        initialData.projectReport ||
+        "",
+
+      setupGuide:
+        initialData.setupGuide ||
+        "",
+
+      isFeatured:
+        initialData.isFeatured ||
+        false,
+
+      isActive:
+        initialData.isActive ??
+        true,
     });
   }, [initialData]);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const {
+      name,
+      value,
+      type,
+      checked,
+    } = e.target;
 
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]:
+        type === "checkbox"
+          ? checked
+          : value,
     }));
   };
 
@@ -58,141 +105,245 @@ export default function ProductForm({
   };
 
   return (
-    <form className="product-form" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
+      <div className="form-group">
+        <label>Title</label>
 
-      {/* GRID */}
-      <div className="form-grid">
+        <input
+          type="text"
+          name="title"
+          value={formData.title}
+          onChange={handleChange}
+          required
+        />
+      </div>
 
-        <div className="input-group">
-          <label>Title</label>
-          <input
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            placeholder="Product title"
-            required
-          />
-        </div>
+      <div className="form-group">
+        <label>Category</label>
 
-        <div className="input-group">
-          <label>Category</label>
-          <select
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Category</option>
-            {categories.map((c) => (
-              <option key={c._id} value={c.name}>
-                {c.name}
+        <select
+          name="category"
+          value={formData.category}
+          onChange={handleChange}
+          required
+        >
+          <option value="">
+            Select Category
+          </option>
+
+          {categories.map(
+            (category) => (
+              <option
+                key={category._id}
+                value={
+                  category.name
+                }
+              >
+                {category.name}
               </option>
-            ))}
-          </select>
-        </div>
+            )
+          )}
+        </select>
+      </div>
 
-        <div className="input-group">
-          <label>Price</label>
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            placeholder="₹0"
-            required
+      <div className="form-group">
+        <label>Price</label>
+
+        <input
+          type="number"
+          name="price"
+          value={formData.price}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
+      <div className="form-group">
+        <label>
+          Description
+        </label>
+
+        <textarea
+          name="description"
+          value={
+            formData.description
+          }
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="form-group">
+        <label>
+          Setup Guide
+        </label>
+
+        <textarea
+          name="setupGuide"
+          value={
+            formData.setupGuide
+          }
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="form-group">
+        <label>
+            Preview Video URL
+        </label>
+
+        <input
+          type="text"
+          name="previewUrl"
+          value={
+            formData.previewUrl
+          }
+          onChange={
+            handleChange
+          }
           />
-        </div>
+      </div>
+  
 
-        <div className="input-group">
-          <label>Preview URL</label>
-          <input
-            name="previewUrl"
-            value={formData.previewUrl}
-            onChange={handleChange}
-            placeholder="https://..."
-          />
-        </div>
+      <div className="form-group">
+        <label>
+          Download File
+        </label>
 
-        <div className="input-group full">
-          <label>Description</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            placeholder="Product description"
-          />
-        </div>
+        <input
+          type="file"
+          accept=".zip,.rar,.7z,.pdf"
+          onChange={(e) =>
+            setDownloadUpload(
+              e.target.files[0]
+            )
+          }
+        />
 
-        <div className="input-group full">
-          <label>Setup Guide</label>
-          <textarea
-            name="setupGuide"
-            value={formData.setupGuide}
-            onChange={handleChange}
-            placeholder="Installation / setup steps"
-          />
-        </div>
-
-        {/* FILES */}
-        <div className="input-group">
-          <label>Product Images</label>
-          <input
-            type="file"
-            multiple
-            accept="image/*"
-            onChange={(e) =>
-              setImageFiles(Array.from(e.target.files))
+        {initialData?.downloadFile && (
+          <p
+            style={{
+              marginTop: "8px",
+              fontSize: "14px",
+            }}
+          >
+            Current File:
+            {" "}
+            {
+              initialData.downloadFile
             }
-          />
-        </div>
+          </p>
+        )}
+      </div>
 
-        <div className="input-group">
-          <label>Download File</label>
-          <input
-            type="file"
-            accept=".zip,.rar,.7z,.pdf"
-            onChange={(e) => setDownloadUpload(e.target.files[0])}
-          />
-        </div>
+      {formData.category ===
+        "College Projects" && (
+        <div className="form-group">
+          <label>
+            Project Report
+          </label>
 
-        <div className="input-group">
-          <label>Project Report</label>
           <input
             type="file"
             accept=".pdf,.doc,.docx"
             onChange={(e) =>
-              setProjectReportUpload(e.target.files[0])
+              setProjectReportUpload(
+                e.target.files[0]
+              )
             }
           />
-        </div>
 
+          {initialData?.projectReport && (
+            <p
+              style={{
+                marginTop:
+                  "8px",
+                fontSize:
+                  "14px",
+              }}
+            >
+              Current Report:
+              {" "}
+              {
+                initialData.projectReport
+              }
+            </p>
+          )}
+        </div>
+      )}
+
+      <div className="form-group">
+        <label>
+          Product Images
+        </label>
+
+        <input
+          type="file"
+          accept="image/*"
+          multiple
+          onChange={(e) =>
+            setImageFiles(
+              Array.from(
+                e.target.files
+              )
+            )
+          }
+        />
+
+        {initialData?.images
+          ?.length > 0 && (
+          <p
+            style={{
+              marginTop: "8px",
+              fontSize: "14px",
+            }}
+          >
+            Current Images:
+            {" "}
+            {
+              initialData.images
+                .length
+            }
+          </p>
+        )}
       </div>
 
-      {/* CHECKBOXES */}
-      <div className="checkbox-row">
+      <div className="form-group">
         <label>
           <input
             type="checkbox"
             name="isFeatured"
-            checked={formData.isFeatured}
-            onChange={handleChange}
+            checked={
+              formData.isFeatured
+            }
+            onChange={
+              handleChange
+            }
           />
           Featured Product
         </label>
+      </div>
 
+      <div className="form-group">
         <label>
           <input
             type="checkbox"
             name="isActive"
-            checked={formData.isActive}
-            onChange={handleChange}
+            checked={
+              formData.isActive
+            }
+            onChange={
+              handleChange
+            }
           />
           Active Product
         </label>
       </div>
 
-      {/* SUBMIT */}
-      <button className="submit-btn" type="submit" disabled={loading}>
+      <button
+        type="submit"
+        disabled={loading}
+        className="form-submit-btn"
+      >
         {loading
           ? initialData
             ? "Updating..."
@@ -201,7 +352,6 @@ export default function ProductForm({
           ? "Update Product"
           : "Create Product"}
       </button>
-
     </form>
   );
 }
