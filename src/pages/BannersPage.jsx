@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import AdminLayout from "../layouts/AdminLayout";
 import BannerForm from "../components/BannerForm";
 
-import "../styles/banner.css";
+import "../styles/banners.css";
 
 import {
   getBanners,
@@ -12,299 +12,185 @@ import {
   deleteBanner,
 } from "../services/bannerService";
 
-import {
-  uploadImage,
-} from "../api/productApi";
+import { uploadImage } from "../api/productApi";
 
 export default function BannersPage() {
-  const [banners, setBanners] =
-    useState([]);
+  const [banners, setBanners] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const [loading, setLoading] =
-    useState(false);
+  const [editingBanner, setEditingBanner] = useState(null);
+  const [editing, setEditing] = useState(false);
 
-  const [editingBanner, setEditingBanner] =
-    useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
 
-  const [editing, setEditing] =
-    useState(false);
-
-  const [showEditModal, setShowEditModal] =
-    useState(false);
-
-  const loadBanners =
-    async () => {
-      try {
-        const data =
-          await getBanners();
-
-        setBanners(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  const loadBanners = async () => {
+    try {
+      const data = await getBanners();
+      setBanners(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     loadBanners();
   }, []);
 
-  const handleCreate =
-    async (data) => {
-      try {
-        setLoading(true);
+  const handleCreate = async (data) => {
+    try {
+      setLoading(true);
 
-        let imageUrl = "";
+      let imageUrl = "";
 
-        if (data.imageFile) {
-          const uploadRes =
-            await uploadImage(
-              data.imageFile
-            );
-
-          imageUrl =
-            uploadRes.imageUrl;
-        }
-
-        await createBanner({
-          title: data.title,
-          image: imageUrl,
-          link: data.link,
-          position: Number(
-            data.position
-          ),
-          isActive:
-            data.isActive,
-        });
-
-        await loadBanners();
-      } catch (error) {
-        console.error(error);
-
-        alert(
-          "Failed to create banner"
-        );
-      } finally {
-        setLoading(false);
+      if (data.imageFile) {
+        const uploadRes = await uploadImage(data.imageFile);
+        imageUrl = uploadRes.imageUrl;
       }
-    };
 
-  const handleUpdate =
-    async (data) => {
-      try {
-        setEditing(true);
+      await createBanner({
+        title: data.title,
+        image: imageUrl,
+        link: data.link,
+        position: Number(data.position),
+        isActive: data.isActive,
+      });
 
-        let imageUrl =
-          editingBanner.image;
+      await loadBanners();
+    } catch (error) {
+      console.error(error);
+      alert("Failed to create banner");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        if (data.imageFile) {
-          const uploadRes =
-            await uploadImage(
-              data.imageFile
-            );
+  const handleUpdate = async (data) => {
+    try {
+      setEditing(true);
 
-          imageUrl =
-            uploadRes.imageUrl;
-        }
+      let imageUrl = editingBanner.image;
 
-        await updateBanner(
-          editingBanner._id,
-          {
-            title: data.title,
-            image: imageUrl,
-            link: data.link,
-            position: Number(
-              data.position
-            ),
-            isActive:
-              data.isActive,
-          }
-        );
-
-        await loadBanners();
-
-        setShowEditModal(
-          false
-        );
-
-        setEditingBanner(
-          null
-        );
-      } catch (error) {
-        console.error(error);
-
-        alert(
-          "Failed to update banner"
-        );
-      } finally {
-        setEditing(false);
+      if (data.imageFile) {
+        const uploadRes = await uploadImage(data.imageFile);
+        imageUrl = uploadRes.imageUrl;
       }
-    };
 
-  const handleDelete =
-    async (bannerId) => {
-      const confirmed =
-        window.confirm(
-          "Delete this banner?"
-        );
+      await updateBanner(editingBanner._id, {
+        title: data.title,
+        image: imageUrl,
+        link: data.link,
+        position: Number(data.position),
+        isActive: data.isActive,
+      });
 
-      if (!confirmed) return;
+      await loadBanners();
 
-      try {
-        await deleteBanner(
-          bannerId
-        );
+      setShowEditModal(false);
+      setEditingBanner(null);
+    } catch (error) {
+      console.error(error);
+      alert("Failed to update banner");
+    } finally {
+      setEditing(false);
+    }
+  };
 
-        await loadBanners();
-      } catch (error) {
-        console.error(error);
+  const handleDelete = async (id) => {
+    if (!window.confirm("Delete this banner?")) return;
 
-        alert(
-          "Failed to delete banner"
-        );
-      }
-    };
+    try {
+      await deleteBanner(id);
+      await loadBanners();
+    } catch (error) {
+      console.error(error);
+      alert("Failed to delete banner");
+    }
+  };
 
   return (
     <AdminLayout>
-      <div className="banner-page">
-        <div className="banner-page-header">
+      <div className="banners-page">
+
+        {/* HEADER */}
+        <div className="banners-header">
           <h1>Banners</h1>
         </div>
 
+        {/* FORM */}
         <div className="banner-form-card">
-          <BannerForm
-            onSubmit={
-              handleCreate
-            }
-            loading={
-              loading
-            }
-          />
+          <BannerForm onSubmit={handleCreate} loading={loading} />
         </div>
 
-        <div className="banner-list">
-          {banners.length ===
-          0 ? (
-            <div className="empty-state">
-              No banners found
-            </div>
+        {/* LIST */}
+        <div className="banners-grid">
+          {banners.length === 0 ? (
+            <div className="empty-state">No banners found</div>
           ) : (
-            banners.map(
-              (banner) => (
-                <div
-                  className="banner-card"
-                  key={
-                    banner._id
-                  }
-                >
-                  <div className="banner-card-header">
-                    <h3 className="banner-title">
-                      {
-                        banner.title
-                      }
-                    </h3>
+            banners.map((banner) => (
+              <div className="banner-card" key={banner._id}>
 
-                    <span
-                      className={`banner-status ${
-                        banner.isActive
-                          ? "active"
-                          : "inactive"
-                      }`}
-                    >
-                      {banner.isActive
-                        ? "Active"
-                        : "Inactive"}
-                    </span>
-                  </div>
+                {/* HEADER */}
+                <div className="banner-card-header">
+                  <h3>{banner.title}</h3>
 
-                  <div className="banner-meta">
-                    <span>
-                      Position:{" "}
-                      {
-                        banner.position
-                      }
-                    </span>
-
-                    <span>
-                      Link:{" "}
-                      {banner.link ||
-                        "-"
-                      }
-                    </span>
-                  </div>
-
-                  {banner.image && (
-                    <img
-                      src={`${import.meta.env.VITE_API_URL}${banner.image}`}
-                      alt={
-                        banner.title
-                      }
-                      className="banner-image"
-                    />
-                  )}
-
-                  <div className="banner-actions">
-                    <button
-                      className="banner-edit-btn"
-                      onClick={() => {
-                        setEditingBanner(
-                          banner
-                        );
-
-                        setShowEditModal(
-                          true
-                        );
-                      }}
-                    >
-                      Edit
-                    </button>
-
-                    <button
-                      className="banner-delete-btn"
-                      onClick={() =>
-                        handleDelete(
-                          banner._id
-                        )
-                      }
-                    >
-                      Delete
-                    </button>
-                  </div>
+                  <span
+                    className={`badge ${
+                      banner.isActive ? "active" : "inactive"
+                    }`}
+                  >
+                    {banner.isActive ? "Active" : "Inactive"}
+                  </span>
                 </div>
-              )
-            )
+
+                {/* META */}
+                <div className="banner-meta">
+                  <span>Position: {banner.position}</span>
+                  <span>Link: {banner.link || "-"}</span>
+                </div>
+
+                {/* IMAGE */}
+                {banner.image && (
+                  <img
+                    src={`${import.meta.env.VITE_API_URL}${banner.image}`}
+                    className="banner-image"
+                  />
+                )}
+
+                {/* ACTIONS */}
+                <div className="banner-actions">
+                  <button
+                    className="btn edit"
+                    onClick={() => {
+                      setEditingBanner(banner);
+                      setShowEditModal(true);
+                    }}
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    className="btn delete"
+                    onClick={() => handleDelete(banner._id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+
+              </div>
+            ))
           )}
         </div>
-      </div>
 
-      {showEditModal &&
-        editingBanner && (
+        {/* EDIT MODAL */}
+        {showEditModal && editingBanner && (
           <div className="modal-overlay">
-            <div className="modal-content">
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent:
-                    "space-between",
-                  alignItems:
-                    "center",
-                  marginBottom:
-                    "20px",
-                }}
-              >
-                <h3>
-                  Edit Banner
-                </h3>
-
+            <div className="modal">
+              <div className="modal-header">
+                <h3>Edit Banner</h3>
                 <button
                   onClick={() => {
-                    setShowEditModal(
-                      false
-                    );
-
-                    setEditingBanner(
-                      null
-                    );
+                    setShowEditModal(false);
+                    setEditingBanner(null);
                   }}
                 >
                   ✕
@@ -312,19 +198,15 @@ export default function BannersPage() {
               </div>
 
               <BannerForm
-                initialData={
-                  editingBanner
-                }
-                loading={
-                  editing
-                }
-                onSubmit={
-                  handleUpdate
-                }
+                initialData={editingBanner}
+                loading={editing}
+                onSubmit={handleUpdate}
               />
             </div>
           </div>
         )}
+
+      </div>
     </AdminLayout>
   );
 }
