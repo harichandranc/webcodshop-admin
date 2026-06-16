@@ -1,0 +1,121 @@
+
+/* ===========================
+   PAGE
+=========================== */
+
+.orders-page {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* HEADER */
+.orders-header h1 {
+  color: #fff;
+  font-size: 22px;
+}
+
+/* MUTED */
+.muted {
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+/* ===========================
+   TABLE CARD (shared system)
+=========================== */
+
+.table-card {
+  background: linear-gradient(145deg, #0f172a, #111827);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  overflow: hidden;
+  padding: 10px;
+}
+
+/* TABLE */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  text-align: left;
+  font-size: 12px;
+  color: #94a3b8;
+  padding: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.table td {
+  padding: 14px 12px;
+  color: #e5e7eb;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.table tr:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+/* ===========================
+   BADGES (STATUS SYSTEM)
+=========================== */
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* status colors */
+.badge.pending {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badge.paid {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.badge.completed {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.badge.cancelled {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* ===========================
+   SELECT DROPDOWN
+=========================== */
+
+.select {
+  padding: 6px 10px;
+  border-radius: 8px;
+
+  background: #0b1220;
+  color: #fff;
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  outline: none;
+  cursor: pointer;
+
+  font-size: 13px;
+  transition: 0.2s;
+}
+
+.select:hover {
+  border-color: #3b82f6;
+}
