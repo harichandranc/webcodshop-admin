@@ -9,36 +9,35 @@ function Topbar() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-
     navigate("/");
   };
 
   return (
-    <div
-      style={{
-        height: "70px",
-        background: "#ffffff",
-        borderBottom: "1px solid #e5e7eb",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "0 25px",
-      }}
-    >
-      <h3>WEB CODSHOP Admin</h3>
+    <div className="topbar">
+      {/* LEFT SIDE */}
+      <div className="topbar-left">
+        <h3 className="topbar-logo">WEB CODSHOP</h3>
+        <span className="topbar-sub">Admin Panel</span>
+      </div>
 
-      <div
-        style={{
-          display: "flex",
-          gap: "15px",
-          alignItems: "center",
-        }}
-      >
-        <span>
-          {user?.name || user?.email || "Admin"}
-        </span>
+      {/* RIGHT SIDE */}
+      <div className="topbar-right">
+        <div className="topbar-user">
+          <div className="topbar-avatar">
+            {user?.name?.charAt(0) ||
+              user?.email?.charAt(0) ||
+              "A"}
+          </div>
 
-        <button onClick={handleLogout}>
+          <div className="topbar-userinfo">
+            <span className="topbar-username">
+              {user?.name || user?.email || "Admin"}
+            </span>
+            <span className="topbar-role">Administrator</span>
+          </div>
+        </div>
+
+        <button className="topbar-logout" onClick={handleLogout}>
           Logout
         </button>
       </div>
