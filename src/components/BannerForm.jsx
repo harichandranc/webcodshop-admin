@@ -1,61 +1,41 @@
-import {
-  useState,
-  useEffect,
-} from "react";
+import { useState, useEffect } from "react";
+import "../styles/banner-form.css";
 
 export default function BannerForm({
   onSubmit,
   loading,
   initialData = null,
 }) {
-  const [formData, setFormData] =
-    useState({
-      title: "",
-      link: "",
-      position: 1,
-      isActive: true,
-    });
+  const [formData, setFormData] = useState({
+    title: "",
+    link: "",
+    position: 1,
+    isActive: true,
+  });
 
-  const [imageFile, setImageFile] =
-    useState(null);
+  const [imageFile, setImageFile] = useState(null);
 
   useEffect(() => {
     if (!initialData) return;
 
     setFormData({
-      title:
-        initialData.title || "",
-      link:
-        initialData.link || "",
-      position:
-        initialData.position || 1,
-      isActive:
-        initialData.isActive ?? true,
+      title: initialData.title || "",
+      link: initialData.link || "",
+      position: initialData.position || 1,
+      isActive: initialData.isActive ?? true,
     });
   }, [initialData]);
 
-  const handleChange = (
-    e
-  ) => {
-    const {
-      name,
-      value,
-      type,
-      checked,
-    } = e.target;
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
 
     setFormData({
       ...formData,
-      [name]:
-        type === "checkbox"
-          ? checked
-          : value,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
-  const handleSubmit = (
-    e
-  ) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     onSubmit({
@@ -76,93 +56,79 @@ export default function BannerForm({
   };
 
   return (
-    <form
-      className="banner-form"
-      onSubmit={handleSubmit}
-    >
-      <input
-        type="text"
-        name="title"
-        placeholder="Banner Title"
-        value={formData.title}
-        onChange={handleChange}
-        required
-      />
+    <form className="banner-form" onSubmit={handleSubmit}>
 
-      <input
-        type="text"
-        name="link"
-        placeholder="Banner Link"
-        value={formData.link}
-        onChange={handleChange}
-      />
+      <div className="form-grid">
 
-      <input
-        type="number"
-        name="position"
-        placeholder="Position"
-        value={formData.position}
-        onChange={handleChange}
-      />
+        <div className="input-group">
+          <label>Banner Title</label>
+          <input
+            type="text"
+            name="title"
+            placeholder="Enter banner title"
+            value={formData.title}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-      <div className="form-group">
-        <label>
-          Banner Image
-        </label>
+        <div className="input-group">
+          <label>Banner Link</label>
+          <input
+            type="text"
+            name="link"
+            placeholder="https://example.com"
+            value={formData.link}
+            onChange={handleChange}
+          />
+        </div>
 
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) =>
-            setImageFile(
-              e.target.files[0]
-            )
-          }
-          required={!initialData}
-        />
+        <div className="input-group">
+          <label>Position</label>
+          <input
+            type="number"
+            name="position"
+            value={formData.position}
+            onChange={handleChange}
+          />
+        </div>
 
-        {imageFile && (
-          <p
-            style={{
-              marginTop: "8px",
-              fontSize: "14px",
-            }}
-          >
-            Selected:{" "}
-            {imageFile.name}
-          </p>
-        )}
+        <div className="input-group">
+          <label>Banner Image</label>
 
-        {initialData?.image && (
-          <p
-            style={{
-              marginTop: "8px",
-              fontSize: "14px",
-            }}
-          >
-            Current Image:{" "}
-            {initialData.image}
-          </p>
-        )}
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImageFile(e.target.files[0])}
+            required={!initialData}
+          />
+
+          {imageFile && (
+            <span className="file-info">
+              Selected: {imageFile.name}
+            </span>
+          )}
+
+          {initialData?.image && (
+            <span className="file-info">
+              Current Image Exists
+            </span>
+          )}
+        </div>
+
       </div>
 
-      <label className="banner-checkbox">
+      <label className="checkbox-row">
         <input
           type="checkbox"
           name="isActive"
-          checked={
-            formData.isActive
-          }
+          checked={formData.isActive}
           onChange={handleChange}
         />
         Active Banner
       </label>
 
-      <button
-        type="submit"
-        className="banner-submit-btn"
-        disabled={loading}
-      >
+      <button className="submit-btn" type="submit" disabled={loading}>
         {loading
           ? initialData
             ? "Updating..."
@@ -171,6 +137,7 @@ export default function BannerForm({
           ? "Update Banner"
           : "Create Banner"}
       </button>
+
     </form>
   );
 }

@@ -1,0 +1,89 @@
+
+/* ===========================
+   FORM WRAPPER
+=========================== */
+
+.banner-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* GRID */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+/* INPUT GROUP */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-group label {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* INPUTS */
+.input-group input {
+  padding: 10px 12px;
+  border-radius: 10px;
+
+  border: 1px solid rgba(255,255,255,0.08);
+  background: #0b1220;
+
+  color: #fff;
+  outline: none;
+
+  transition: 0.2s;
+}
+
+.input-group input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59,130,246,0.15);
+}
+
+/* FILE INFO */
+.file-info {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 6px;
+}
+
+/* CHECKBOX */
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: #e5e7eb;
+  font-size: 14px;
+}
+
+/* BUTTON */
+.submit-btn {
+  padding: 10px 14px;
+  border-radius: 10px;
+
+  border: none;
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #3b82f6, #22d3ee);
+  color: #000;
+
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
