@@ -6,41 +6,78 @@ export default function ProductForm({
   initialData = null,
   categories = [],
 }) {
-  const [formData, setFormData] = useState({
-    title: "",
-    image: "",
-    category: "",
-    price: "",
-    description: "",
-    previewUrl: "",
-    downloadFile: "",
-    type: "template",
-    isFeatured: false,
-    isActive: true,
-  });
+  const [formData, setFormData] =
+    useState({
+      title: "",
+      category: "",
+      price: "",
+      description: "",
+      previewUrl: "",
+      downloadFile: "",
+      projectReport: "",
+      isFeatured: false,
+      isActive: true,
+    });
 
-  const [imageFile, setImageFile] = useState(null);
-  const [downloadUpload, setDownloadUpload] = useState(null);
+  const [imageFiles, setImageFiles] =
+    useState([]);
+
+  const [
+    downloadUpload,
+    setDownloadUpload,
+  ] = useState(null);
+
+  const [
+    projectReportUpload,
+    setProjectReportUpload,
+  ] = useState(null);
 
   useEffect(() => {
     if (!initialData) return;
 
     setFormData({
-      title: initialData.title || "",
-      image: initialData.image || "",
-      category: initialData.category || "",
-      price: initialData.price || "",
-      description: initialData.description || "",
-      previewUrl: initialData.previewUrl || "",
-      downloadFile: initialData.downloadFile || "",
-      type: initialData.type || "template",
-      isFeatured: initialData.isFeatured || false,
-      isActive: initialData.isActive ?? true,
+      title:
+        initialData.title || "",
+
+      category:
+        initialData.category || "",
+
+      price:
+        initialData.price || "",
+
+      description:
+        initialData.description ||
+        "",
+
+      previewUrl:
+        initialData.previewUrl ||
+        "",
+
+      downloadFile:
+        initialData.downloadFile ||
+        "",
+
+      projectReport:
+        initialData.projectReport ||
+        "",
+
+      isFeatured:
+        initialData.isFeatured ||
+        false,
+
+      isActive:
+        initialData.isActive ??
+        true,
     });
   }, [initialData]);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const {
+      name,
+      value,
+      type,
+      checked,
+    } = e.target;
 
     setFormData((prev) => ({
       ...prev,
@@ -56,8 +93,9 @@ export default function ProductForm({
 
     onSubmit({
       ...formData,
-      imageFile,
+      imageFiles,
       downloadUpload,
+      projectReportUpload,
     });
   };
 
@@ -84,20 +122,24 @@ export default function ProductForm({
           onChange={handleChange}
           required
         >
-        <option value="">
-          Select Category
-        </option>
-
-        {categories.map((category) => (
-          <option
-            key={category._id}
-            value={category.name}
-          >
-            {category.name}
+          <option value="">
+            Select Category
           </option>
-        ))}
-      </select>
-    </div>
+
+          {categories.map(
+            (category) => (
+              <option
+                key={category._id}
+                value={
+                  category.name
+                }
+              >
+                {category.name}
+              </option>
+            )
+          )}
+        </select>
+      </div>
 
       <div className="form-group">
         <label>Price</label>
@@ -112,80 +154,138 @@ export default function ProductForm({
       </div>
 
       <div className="form-group">
-        <label>Description</label>
+        <label>
+          Description
+        </label>
 
         <textarea
           name="description"
-          value={formData.description}
+          value={
+            formData.description
+          }
           onChange={handleChange}
         />
       </div>
 
-      <div className="form-group">
-        <label>Preview URL</label>
+      {formData.category ===
+        "Templates" && (
+        <div className="form-group">
+          <label>
+            Preview URL
+          </label>
 
-        <input
-          type="text"
-          name="previewUrl"
-          value={formData.previewUrl}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div className="form-group">
-  <label>
-    Download File
-  </label>
-
-  <input
-    type="file"
-    accept=".zip,.rar,.7z,.pdf"
-    onChange={(e) =>
-      setDownloadUpload(
-        e.target.files[0]
-      )
-    }
-  />
-
-  {initialData?.downloadFile && (
-    <p
-      style={{
-        marginTop: "8px",
-        fontSize: "14px",
-      }}
-    >
-      Current File:
-      {" "}
-      {initialData.downloadFile}
-    </p>
-  )}
-</div>
-
-      
+          <input
+            type="text"
+            name="previewUrl"
+            value={
+              formData.previewUrl
+            }
+            onChange={
+              handleChange
+            }
+          />
+        </div>
+      )}
 
       <div className="form-group">
-        <label>Image</label>
+        <label>
+          Download File
+        </label>
 
         <input
           type="file"
-          accept="image/*"
+          accept=".zip,.rar,.7z,.pdf"
           onChange={(e) =>
-            setImageFile(
+            setDownloadUpload(
               e.target.files[0]
             )
           }
         />
 
-        {initialData?.image && (
+        {initialData?.downloadFile && (
           <p
             style={{
               marginTop: "8px",
               fontSize: "14px",
             }}
           >
-            Current Image:
+            Current File:
             {" "}
-            {initialData.image}
+            {
+              initialData.downloadFile
+            }
+          </p>
+        )}
+      </div>
+
+      {formData.category ===
+        "College Projects" && (
+        <div className="form-group">
+          <label>
+            Project Report
+          </label>
+
+          <input
+            type="file"
+            accept=".pdf,.doc,.docx"
+            onChange={(e) =>
+              setProjectReportUpload(
+                e.target.files[0]
+              )
+            }
+          />
+
+          {initialData?.projectReport && (
+            <p
+              style={{
+                marginTop:
+                  "8px",
+                fontSize:
+                  "14px",
+              }}
+            >
+              Current Report:
+              {" "}
+              {
+                initialData.projectReport
+              }
+            </p>
+          )}
+        </div>
+      )}
+
+      <div className="form-group">
+        <label>
+          Product Images
+        </label>
+
+        <input
+          type="file"
+          accept="image/*"
+          multiple
+          onChange={(e) =>
+            setImageFiles(
+              Array.from(
+                e.target.files
+              )
+            )
+          }
+        />
+
+        {initialData?.images
+          ?.length > 0 && (
+          <p
+            style={{
+              marginTop: "8px",
+              fontSize: "14px",
+            }}
+          >
+            Current Images:
+            {" "}
+            {
+              initialData.images
+                .length
+            }
           </p>
         )}
       </div>
@@ -198,7 +298,9 @@ export default function ProductForm({
             checked={
               formData.isFeatured
             }
-            onChange={handleChange}
+            onChange={
+              handleChange
+            }
           />
           Featured Product
         </label>
@@ -212,9 +314,11 @@ export default function ProductForm({
             checked={
               formData.isActive
             }
-            onChange={handleChange}
-           />
-           Active Product
+            onChange={
+              handleChange
+            }
+          />
+          Active Product
         </label>
       </div>
 

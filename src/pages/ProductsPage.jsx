@@ -10,6 +10,7 @@ import {
   createProduct,
   uploadImage,
   uploadDownloadFile,
+  uploadProjectReport,
   updateProduct,
   deleteProduct,
 } from "../api/productApi";
@@ -67,59 +68,92 @@ function ProductsPage() {
   };
 
   const handleCreateProduct =
-    async (data) => {
-      try {
-        setCreating(true);
+  async (data) => {
+    try {
+      setCreating(true);
 
-        let imageUrl = "";
-        let downloadFile = "";
+      let images = [];
+      let downloadFile = "";
+      let projectReport = "";
 
-        if (data.imageFile) {
+      if (
+        data.imageFiles &&
+        data.imageFiles.length > 0
+      ) {
+        for (const file of data.imageFiles) {
           const uploadRes =
-            await uploadImage(
-              data.imageFile
-            );
+            await uploadImage(file);
 
-          imageUrl =
-            uploadRes.imageUrl;
+          images.push(
+            uploadRes.imageUrl
+          );
         }
-
-        if (data.downloadUpload) {
-          const uploadRes =
-            await uploadDownloadFile(
-              data.downloadUpload
-            );
-
-          downloadFile =
-            uploadRes.fileUrl;
-        }
-
-        await createProduct({
-          title: data.title,
-          image: imageUrl,
-          category: data.category,
-          price: Number(data.price),
-          description: data.description,
-          previewUrl: data.previewUrl,
-          downloadFile,
-          type: data.type,
-          isFeatured: data.isFeatured,
-          isActive: data.isActive,
-       });
-
-        await fetchProducts();
-
-        setShowModal(false);
-      } catch (error) {
-        console.error(error);
-
-        alert(
-          "Failed to create product"
-        );
-      } finally {
-        setCreating(false);
       }
-    };
+
+      if (data.downloadUpload) {
+        const uploadRes =
+          await uploadDownloadFile(
+            data.downloadUpload
+          );
+
+        downloadFile =
+          uploadRes.fileUrl;
+      }
+
+      if (
+        data.projectReportUpload
+      ) {
+        const uploadRes =
+          await uploadProjectReport(
+            data.projectReportUpload
+          );
+
+        projectReport =
+          uploadRes.fileUrl;
+      }
+
+      await createProduct({
+        title: data.title,
+
+        images,
+
+        category:
+          data.category,
+
+        price: Number(
+          data.price
+        ),
+
+        description:
+          data.description,
+
+        previewUrl:
+          data.previewUrl,
+
+        downloadFile,
+
+        projectReport,
+
+        isFeatured:
+          data.isFeatured,
+
+        isActive:
+          data.isActive,
+      });
+
+      await fetchProducts();
+
+      setShowModal(false);
+    } catch (error) {
+      console.error(error);
+
+      alert(
+        "Failed to create product"
+      );
+    } finally {
+      setCreating(false);
+    }
+  };
 
   useEffect(() => {
     fetchProducts();
@@ -131,20 +165,29 @@ function ProductsPage() {
     try {
       setEditing(true);
 
-      let imageUrl =
-        editingProduct.image || "";
+      let images =
+        editingProduct.images || [];
 
       let downloadFile =
         editingProduct.downloadFile || "";
 
-      if (data.imageFile) {
-        const uploadRes =
-          await uploadImage(
-            data.imageFile
-          );
+      let projectReport =
+        editingProduct.projectReport || "";
 
-        imageUrl =
-          uploadRes.imageUrl;
+      if (
+        data.imageFiles &&
+        data.imageFiles.length > 0
+      ) {
+        images = [];
+
+        for (const file of data.imageFiles) {
+          const uploadRes =
+            await uploadImage(file);
+
+          images.push(
+            uploadRes.imageUrl
+          );
+        }
       }
 
       if (data.downloadUpload) {
@@ -155,22 +198,47 @@ function ProductsPage() {
 
         downloadFile =
           uploadRes.fileUrl;
-    }
+      }
+
+      if (
+        data.projectReportUpload
+      ) {
+        const uploadRes =
+          await uploadProjectReport(
+            data.projectReportUpload
+          );
+
+        projectReport =
+          uploadRes.fileUrl;
+      }
 
       await updateProduct(
         editingProduct._id,
         {
           title: data.title,
-          image: imageUrl,
-          category: data.category,
-          price: Number(data.price),
+
+          images,
+
+          category:
+            data.category,
+
+          price: Number(
+            data.price
+          ),
+
           description:
             data.description,
+
           previewUrl:
-            data.previewUrl, downloadFile,
-          type: data.type,
+            data.previewUrl,
+
+          downloadFile,
+
+          projectReport,
+
           isFeatured:
             data.isFeatured,
+
           isActive:
             data.isActive,
         }
@@ -291,15 +359,7 @@ function ProductsPage() {
                     Category
                   </th>
 
-                  <th
-                    style={{
-                      padding: "12px",
-                      textAlign:
-                        "left",
-                    }}
-                  >
-                    Type
-                  </th>
+                  
 
                   <th
                     style={{
@@ -371,17 +431,7 @@ function ProductsPage() {
                         }
                       </td>
 
-                      <td
-                        style={{
-                          padding:
-                            "12px",
-                        }}
-                      >
-                        {
-                          product.type
-                        }
-                      </td>
-
+                      
                       <td
                         style={{
                           padding:

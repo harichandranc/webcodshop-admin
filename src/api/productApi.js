@@ -122,3 +122,34 @@ export const uploadDownloadFile =
 
     return response.data;
   };
+
+  export const uploadProjectReport =
+  async (file) => {
+    const token =
+      localStorage.getItem(
+        "token"
+      );
+
+    const formData =
+      new FormData();
+
+    formData.append(
+      "file",
+      file
+    );
+
+    const response =
+      await axios.post(
+        `${API_URL}/api/upload/project-report`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type":
+              "multipart/form-data",
+          },
+        }
+      );
+
+    return response.data;
+  };
