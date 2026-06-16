@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "../styles/dashboard.css";
+import "../styles/topbar.css";
 
 function Topbar() {
   const navigate = useNavigate();
@@ -15,13 +15,11 @@ function Topbar() {
 
   return (
     <div className="topbar">
-      {/* LEFT SIDE */}
       <div className="topbar-left">
         <h3 className="topbar-logo">WEB CODSHOP</h3>
         <span className="topbar-sub">Admin Panel</span>
       </div>
 
-      {/* RIGHT SIDE */}
       <div className="topbar-right">
         <div className="topbar-user">
           <div className="topbar-avatar">
