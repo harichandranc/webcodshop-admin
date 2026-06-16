@@ -15,6 +15,7 @@ export default function ProductForm({
       previewUrl: "",
       downloadFile: "",
       projectReport: "",
+      setupGuide: "",
       isFeatured: false,
       isActive: true,
     });
@@ -59,6 +60,10 @@ export default function ProductForm({
 
       projectReport:
         initialData.projectReport ||
+        "",
+
+      setupGuide:
+        initialData.setupGuide ||
         "",
 
       isFeatured:
@@ -162,6 +167,20 @@ export default function ProductForm({
           name="description"
           value={
             formData.description
+          }
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="form-group">
+        <label>
+          Setup Guide
+        </label>
+
+        <textarea
+          name="setupGuide"
+          value={
+            formData.setupGuide
           }
           onChange={handleChange}
         />

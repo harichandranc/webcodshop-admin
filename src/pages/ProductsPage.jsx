@@ -134,6 +134,9 @@ function ProductsPage() {
 
         projectReport,
 
+        setupGuide:
+          data.setupGuide,
+
         isFeatured:
           data.isFeatured,
 
@@ -235,6 +238,9 @@ function ProductsPage() {
           downloadFile,
 
           projectReport,
+
+          setupGuide:
+            data.setupGuide,
 
           isFeatured:
             data.isFeatured,
