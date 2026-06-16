@@ -86,16 +86,7 @@ export default function CategoryForm({
         />
       </div>
 
-      <div className="form-group">
-        <label>Image URL</label>
-
-        <input
-          type="text"
-          name="image"
-          value={formData.image}
-          onChange={handleChange}
-        />
-      </div>
+      
 
       <div className="form-group">
         <label>
