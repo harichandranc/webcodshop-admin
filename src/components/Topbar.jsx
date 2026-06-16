@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import "../styles/dashboard.css";
 
 function Topbar() {
   const navigate = useNavigate();
