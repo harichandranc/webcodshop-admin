@@ -107,6 +107,8 @@ export const uploadDownloadFile =
       file
     );
 
+    console.log(localStorage.getItem("token"));
+
     const response =
       await axios.post(
         `${API_URL}/api/upload/download`,
