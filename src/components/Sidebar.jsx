@@ -1,107 +1,45 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import "../styles/sidebar.css";
 
 function Sidebar() {
   return (
-    <div
-      style={{
-        width: "250px",
-        background: "#0f172a",
-        color: "#fff",
-        padding: "20px",
-      }}
-    >
-      <h2>WEB CODSHOP</h2>
+    <div className="sidebar">
+      <div className="sidebar-logo">
+        WEB CODSHOP
+      </div>
 
-      <div
-        style={{
-          marginTop: "25px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "12px",
-        }}
-      >
-        <Link
-          to="/dashboard"
-          style={{
-            color: "#fff",
-            textDecoration: "none",
-          }}
-        >
+      <div className="sidebar-menu">
+        <NavLink to="/dashboard" className="sidebar-link">
           Dashboard
-        </Link>
+        </NavLink>
 
-        <Link
-          to="/products"
-          style={{
-            color: "#fff",
-            textDecoration: "none",
-          }}
-        >
+        <NavLink to="/products" className="sidebar-link">
           Products
-        </Link>
+        </NavLink>
 
-        <Link
-          to="/categories"
-          style={{
-            color: "#fff",
-            textDecoration: "none",
-          }}
-        >
+        <NavLink to="/categories" className="sidebar-link">
           Categories
-        </Link>
+        </NavLink>
 
-        <Link
-          to="/orders"
-          style={{
-            color: "#fff",
-            textDecoration: "none",
-          }}
-        >
+        <NavLink to="/orders" className="sidebar-link">
           Orders
-        </Link>
+        </NavLink>
 
-        <Link
-          to="/customers"
-          style={{
-            color: "#fff",
-            textDecoration: "none",
-        }}
-      >
-        Customers
-      </Link>
+        <NavLink to="/customers" className="sidebar-link">
+          Customers
+        </NavLink>
 
-      <Link
-        to="/coupons"
-        style={{
-          color: "#fff",
-          textDecoration: "none",
-        }}
-      >
-        Coupons
-      </Link>
+        <NavLink to="/coupons" className="sidebar-link">
+          Coupons
+        </NavLink>
 
-      <Link
-        to="/banners"
-        style={{
-          color: "#fff",
-          textDecoration: "none",
-       }}
-      >
-        Banners
-      </Link>
+        <NavLink to="/banners" className="sidebar-link">
+          Banners
+        </NavLink>
 
-      <Link
-        to="/settings"
-        style={{
-          color: "#fff",
-          textDecoration: "none",
-       }}
-     >
-        Settings
-      </Link>
-
-        
-
+        <NavLink to="/settings" className="sidebar-link">
+          Settings
+        </NavLink>
       </div>
     </div>
   );
