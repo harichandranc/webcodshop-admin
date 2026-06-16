@@ -161,23 +161,7 @@ export default function ProductForm({
   )}
 </div>
 
-      <div className="form-group">
-        <label>Type</label>
-
-        <select
-          name="type"
-          value={formData.type}
-          onChange={handleChange}
-        >
-          <option value="template">
-            Template
-          </option>
-
-          <option value="sourceCode">
-            Source Code
-          </option>
-        </select>
-      </div>
+      
 
       <div className="form-group">
         <label>Image</label>
