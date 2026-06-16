@@ -22,7 +22,7 @@ function AdminLayout({ children }) {
         <div
           style={{
             padding: "25px",
-            paddingTop: "95px", // IMPORTANT (topbar height + spacing)
+            paddingTop: "65px", // IMPORTANT (topbar height + spacing)
           }}
         >
           {children}
