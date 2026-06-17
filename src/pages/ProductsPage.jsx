@@ -73,8 +73,19 @@ function ProductsPage() {
       setCreating(true);
 
       let images = [];
+      let thumbnailImage = ""
       let downloadFile = "";
       let projectReport = "";
+
+      if (data.thumbnailFile) {
+        const uploadRes =
+          await uploadImage(
+            data.thumbnailFile
+        );
+
+        thumbnailImage =
+          uploadRes.imageUrl;
+      }
 
       if (
         data.imageFiles &&
@@ -117,10 +128,7 @@ function ProductsPage() {
 
         images,
 
-        thumbnailImage:
-          images[
-            data.thumbnailIndex || 0
-          ] || "",
+        thumbnailImage,
 
         category:
           data.category,
@@ -176,11 +184,24 @@ function ProductsPage() {
       let images =
         editingProduct.images || [];
 
+      let thumbnailFile =
+        editingProduct.thumbnailImage || "";
+
       let downloadFile =
         editingProduct.downloadFile || "";
 
       let projectReport =
         editingProduct.projectReport || "";
+
+      if (data.thumbnailFile) {
+        const uploadRes =
+          await uploadImage(
+            data.thumbnailFile
+        );
+
+        thumbnailImage =
+          uploadRes.imageUrl;
+      }
 
       if (
         data.imageFiles &&
@@ -227,12 +248,7 @@ function ProductsPage() {
 
           images,
 
-          thubnailImage:
-            images[
-              data.thubnailIndex || 0
-            ] ||
-            editingProduct.thubmnailImage ||
-            "",
+          thumbnailImage,
 
           category:
             data.category,

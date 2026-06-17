@@ -23,7 +23,8 @@ export default function ProductForm({
   const [imageFiles, setImageFiles] =
     useState([]);
   
-  const [thumbnailIndex, setThumbnailIndex,] = useState(0);
+  const [thumbnailFile, setThumbnailFile] =
+    useState(null);
 
   const [
     downloadUpload,
@@ -100,6 +101,7 @@ export default function ProductForm({
 
     onSubmit({
       ...formData,
+      thumbnailFile,
       imageFiles,
       thumbnailIndex,
       downloadUpload,
@@ -275,81 +277,60 @@ export default function ProductForm({
       )}
 
       <div className="form-group">
-  <label>Product Images</label>
+  <label>
+    Thumbnail Image
+  </label>
+
+  <input
+    type="file"
+    accept="image/*"
+    onChange={(e) =>
+      setThumbnailFile(
+        e.target.files[0]
+      )
+    }
+  />
+
+  {thumbnailFile && (
+    <div
+      style={{
+        marginTop: "10px",
+      }}
+    >
+      <img
+        src={URL.createObjectURL(
+          thumbnailFile
+        )}
+        alt=""
+        width="140"
+        style={{
+          borderRadius: "8px",
+        }}
+      />
+    </div>
+  )}
+</div>
+
+<div className="form-group">
+  <label>
+    Product Images
+  </label>
 
   <input
     type="file"
     accept="image/*"
     multiple
-    onChange={(e) => {
-      const files = Array.from(e.target.files);
-
-      setImageFiles(files);
-      setThumbnailIndex(0);
-    }}
+    onChange={(e) =>
+      setImageFiles(
+        Array.from(
+          e.target.files
+        )
+      )
+    }
   />
-
-  {imageFiles.length > 0 && (
-    <>
-      <p
-        style={{
-          marginTop: "12px",
-          fontWeight: "600",
-        }}
-      >
-        Selected Thumbnail
-      </p>
-
-      <div
-        style={{
-          display: "flex",
-          gap: "10px",
-          flexWrap: "wrap",
-          marginTop: "10px",
-        }}
-      >
-        {imageFiles.map((file, index) => (
-          <div
-            key={index}
-            onClick={() => setThumbnailIndex(index)}
-            style={{
-              border:
-                thumbnailIndex === index
-                  ? "3px solid #2563eb"
-                  : "1px solid #ddd",
-              cursor: "pointer",
-              padding: "4px",
-              borderRadius: "8px",
-            }}
-          >
-            <img
-              src={URL.createObjectURL(file)}
-              alt=""
-              width="100"
-              height="80"
-              style={{
-                objectFit: "cover",
-              }}
-            />
-
-            {thumbnailIndex === index && (
-              <p
-                style={{
-                  textAlign: "center",
-                  color: "#2563eb",
-                  fontWeight: "600",
-                  marginTop: "5px",
-                }}
-              >
-                Thumbnail
-              </p>
-            )}
-          </div>
-        ))}
-      </div>
-    </>
-  )}
 </div>
+
+
 
       <div className="form-group">
         <label>
