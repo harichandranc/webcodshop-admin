@@ -119,7 +119,7 @@ function ProductsPage() {
 
         thumbnailImage:
           images[
-            data.thubnailIndex || 0
+            data.thumbnailIndex || 0
           ] || "",
 
         category:
