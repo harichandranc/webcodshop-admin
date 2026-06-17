@@ -103,7 +103,7 @@ export default function ProductForm({
       ...formData,
       thumbnailFile,
       imageFiles,
-      thumbnailIndex,
+      thumbnailFile,
       downloadUpload,
       projectReportUpload,
     });
