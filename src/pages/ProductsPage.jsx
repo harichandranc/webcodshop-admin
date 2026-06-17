@@ -319,283 +319,127 @@ function ProductsPage() {
   };
 
   return (
-    <AdminLayout>
-      <div
-        style={{
-          display: "flex",
-          justifyContent:
-            "space-between",
-          alignItems: "center",
-          marginBottom: "20px",
-        }}
-      >
+  <AdminLayout>
+    <div className="products-page">
+
+      {/* Header */}
+      <div className="products-header">
         <h1>Products</h1>
 
         <button
           className="primary-btn"
-          onClick={() =>
-            setShowModal(true)
-          }
+          onClick={() => setShowModal(true)}
         >
           + Add Product
         </button>
       </div>
 
       {loading && (
-        <p>Loading products...</p>
+        <p className="loading-text">
+          Loading products...
+        </p>
       )}
 
-      {!loading &&
-        products.length === 0 && (
-          <p>No products found.</p>
-        )}
+      {!loading && products.length === 0 && (
+        <p className="empty-text">
+          No products found.
+        </p>
+      )}
 
-      {!loading &&
-        products.length > 0 && (
-          <div
-            style={{
-              background: "#fff",
-              borderRadius: "10px",
-              overflow: "hidden",
-            }}
-          >
-            <table
-              style={{
-                width: "100%",
-                borderCollapse:
-                  "collapse",
-              }}
-            >
-              <thead>
-                <tr
-                  style={{
-                    background:
-                      "#f3f4f6",
-                  }}
-                >
-                  <th
-                    style={{
-                      padding: "12px",
-                      textAlign:
-                        "left",
-                    }}
-                  >
-                    Title
-                  </th>
+      {!loading && products.length > 0 && (
+        <div className="table-card">
+          <table className="products-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Featured</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
 
-                  <th
-                    style={{
-                      padding: "12px",
-                      textAlign:
-                        "left",
-                    }}
-                  >
-                    Category
-                  </th>
+            <tbody>
+              {products.map((product) => (
+                <tr key={product._id}>
+                  <td>{product.title}</td>
 
-                  
+                  <td>{product.category}</td>
 
-                  <th
-                    style={{
-                      padding: "12px",
-                      textAlign:
-                        "left",
-                    }}
-                  >
-                    Price
-                  </th>
+                  <td>₹{product.price}</td>
 
-                  <th
-                    style={{
-                      padding: "12px",
-                      textAlign:
-                        "left",
-                    }}
-                  >
-                    Featured
-                  </th>
-
-                  <th
-                    style={{
-                      padding: "12px",
-                      textAlign:
-                        "left",
-                    }}
-                  >
-                    Status
-                  </th>
-
-                  <th
-                    style={{
-                      padding: "12px",
-                    }}
-                  >
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {products.map(
-                  (product) => (
-                    <tr
-                      key={
-                        product._id
+                  <td>
+                    <span
+                      className={
+                        product.isFeatured
+                          ? "badge badge-blue"
+                          : "badge"
                       }
                     >
-                      <td
-                        style={{
-                          padding:
-                            "12px",
-                        }}
-                      >
-                        {
-                          product.title
-                        }
-                      </td>
+                      {product.isFeatured
+                        ? "Featured"
+                        : "Normal"}
+                    </span>
+                  </td>
 
-                      <td
-                        style={{
-                          padding:
-                            "12px",
-                        }}
-                      >
-                        {
-                          product.category
-                        }
-                      </td>
+                  <td>
+                    <span
+                      className={
+                        product.isActive
+                          ? "badge badge-green"
+                          : "badge badge-red"
+                      }
+                    >
+                      {product.isActive
+                        ? "Active"
+                        : "Inactive"}
+                    </span>
+                  </td>
 
-                      
-                      <td
-                        style={{
-                          padding:
-                            "12px",
-                        }}
-                      >
-                        ₹
-                        {
-                          product.price
-                        }
-                      </td>
+                  <td>
+                    <button
+                      className="action-btn edit-btn"
+                      onClick={() => {
+                        setEditingProduct(product);
+                        setShowEditModal(true);
+                      }}
+                    >
+                      Edit
+                    </button>
 
-                      <td
-  style={{
-    padding:
-      "12px",
-  }}
->
-  <span
-    style={{
-      background:
-        product.isFeatured
-          ? "#dcfce7"
-          : "#f3f4f6",
-      color:
-        product.isFeatured
-          ? "#166534"
-          : "#6b7280",
-      padding: "4px 10px",
-      borderRadius: "999px",
-      fontSize: "12px",
-      fontWeight: "600",
-    }}
-  >
-    {product.isFeatured
-      ? "Featured"
-      : "Normal"}
-  </span>
-</td>
+                    {" "}
 
-<td
-  style={{
-    padding:
-      "12px",
-  }}
->
-  <span
-    style={{
-      background:
-        product.isActive
-          ? "#dcfce7"
-          : "#fee2e2",
-      color:
-        product.isActive
-          ? "#166534"
-          : "#991b1b",
-      padding: "4px 10px",
-      borderRadius: "999px",
-      fontSize: "12px",
-      fontWeight: "600",
-    }}
-  >
-    {product.isActive
-      ? "Active"
-      : "Inactive"}
-  </span>
-</td>
+                    <button
+                      className="action-btn delete-btn"
+                      onClick={() =>
+                        handleDeleteProduct(
+                          product._id
+                        )
+                      }
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
-<td
-  style={{
-    padding:
-      "12px",
-  }}
->
-                        <button
-                          className="action-btn edit-btn"
-                          onClick={() => {
-                            setEditingProduct(product);
-                            setShowEditModal(true);
-                          }}
-                        >
-                          Edit
-                        </button>
-
-                        {" "}
-                        
-                        <button
-                          className="action-btn delete-btn"
-                          onClick={() =>
-                            handleDeleteProduct(
-                              product._id
-                            )
-                           }
-                        >
-                           Delete
-                        </button>
-
-
-                      </td>
-                    </tr>
-                  )
-                )}
-              </tbody>
-            </table>
-          </div>
-        )}
-
+      {/* Create Product Modal */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <div
-              style={{
-                display: "flex",
-                justifyContent:
-                  "space-between",
-                alignItems:
-                  "center",
-                marginBottom:
-                  "20px",
-              }}
-            >
-              <h3>
-                Create Product
-              </h3>
+
+            <div className="modal-header">
+              <h3>Create Product</h3>
 
               <button
+                className="modal-close"
                 onClick={() =>
-                  setShowModal(
-                    false
-                  )
+                  setShowModal(false)
                 }
               >
                 ✕
@@ -605,57 +449,46 @@ function ProductsPage() {
             <ProductForm
               loading={creating}
               categories={categories}
-              onSubmit={
-                handleCreateProduct
-              }
+              onSubmit={handleCreateProduct}
             />
+
           </div>
         </div>
       )}
+
+      {/* Edit Product Modal */}
       {showEditModal && editingProduct && (
-  <div className="modal-overlay">
-    <div className="modal-content">
-      <div
-        style={{
-          display: "flex",
-          justifyContent:
-            "space-between",
-          alignItems: "center",
-          marginBottom: "20px",
-        }}
-      >
-        <h3>Edit Product</h3>
+        <div className="modal-overlay">
+          <div className="modal-content">
 
-        <button
-          onClick={() => {
-            setShowEditModal(
-              false
-            );
+            <div className="modal-header">
+              <h3>Edit Product</h3>
 
-            setEditingProduct(
-              null
-            );
-          }}
-        >
-          ✕
-        </button>
-      </div>
+              <button
+                className="modal-close"
+                onClick={() => {
+                  setShowEditModal(false);
+                  setEditingProduct(null);
+                }}
+              >
+                ✕
+              </button>
+            </div>
 
-      <ProductForm
-        loading={editing}
-        initialData={
-          editingProduct
-        }
-        categories={categories}
-        onSubmit={
-          handleUpdateProduct
-        }
-      />
+            <ProductForm
+              loading={editing}
+              initialData={editingProduct}
+              categories={categories}
+              onSubmit={handleUpdateProduct}
+            />
+
+          </div>
+        </div>
+      )}
+
     </div>
-  </div>
-)}
-    </AdminLayout>
-  );
+  </AdminLayout>
+);
 }
 
 export default ProductsPage;
