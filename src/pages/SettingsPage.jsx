@@ -1,7 +1,4 @@
-import {
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 
 import AdminLayout from "../layouts/AdminLayout";
 
@@ -44,9 +41,7 @@ export default function SettingsPage() {
     loadSettings();
   }, []);
 
-  const handleChange = (
-    e
-  ) => {
+  const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]:
@@ -66,7 +61,7 @@ export default function SettingsPage() {
         );
 
         alert(
-          "Settings updated"
+          "Settings updated successfully"
         );
       } catch (error) {
         console.error(error);
@@ -82,111 +77,137 @@ export default function SettingsPage() {
   return (
     <AdminLayout>
       <div className="settings-page">
-        <h1>
-          Settings
-        </h1>
+
+        <div className="settings-header">
+          <h1>Settings</h1>
+          <p>
+            Manage your store information
+          </p>
+        </div>
 
         <form
           className="settings-form"
-          onSubmit={
-            handleSubmit
-          }
+          onSubmit={handleSubmit}
         >
-          <input
-            name="storeName"
-            placeholder="Store Name"
-            value={
-              formData.storeName
-            }
-            onChange={
-              handleChange
-            }
-          />
+          <div className="settings-grid">
 
-          <input
-            name="supportEmail"
-            placeholder="Support Email"
-            value={
-              formData.supportEmail
-            }
-            onChange={
-              handleChange
-            }
-          />
+            <div className="form-group">
+              <label>
+                Store Name
+              </label>
 
-          <input
-            name="supportPhone"
-            placeholder="Support Phone"
-            value={
-              formData.supportPhone
-            }
-            onChange={
-              handleChange
-            }
-          />
+              <input
+                name="storeName"
+                value={formData.storeName}
+                onChange={handleChange}
+                placeholder="Store Name"
+              />
+            </div>
 
-          <input
-            name="logo"
-            placeholder="Logo URL"
-            value={
-              formData.logo
-            }
-            onChange={
-              handleChange
-            }
-          />
+            <div className="form-group">
+              <label>
+                Support Email
+              </label>
 
-          <input
-            name="facebook"
-            placeholder="Facebook URL"
-            value={
-              formData.facebook
-            }
-            onChange={
-              handleChange
-            }
-          />
+              <input
+                name="supportEmail"
+                value={formData.supportEmail}
+                onChange={handleChange}
+                placeholder="support@example.com"
+              />
+            </div>
 
-          <input
-            name="instagram"
-            placeholder="Instagram URL"
-            value={
-              formData.instagram
-            }
-            onChange={
-              handleChange
-            }
-          />
+            <div className="form-group">
+              <label>
+                Support Phone
+              </label>
 
-          <input
-            name="youtube"
-            placeholder="YouTube URL"
-            value={
-              formData.youtube
-            }
-            onChange={
-              handleChange
-            }
-          />
+              <input
+                name="supportPhone"
+                value={formData.supportPhone}
+                onChange={handleChange}
+                placeholder="+91 9876543210"
+              />
+            </div>
 
-          <textarea
-            name="footerText"
-            placeholder="Footer Text"
-            value={
-              formData.footerText
-            }
-            onChange={
-              handleChange
-            }
-          />
+            <div className="form-group">
+              <label>
+                Logo URL
+              </label>
+
+              <input
+                name="logo"
+                value={formData.logo}
+                onChange={handleChange}
+                placeholder="Logo URL"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>
+                Facebook URL
+              </label>
+
+              <input
+                name="facebook"
+                value={formData.facebook}
+                onChange={handleChange}
+                placeholder="Facebook URL"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>
+                Instagram URL
+              </label>
+
+              <input
+                name="instagram"
+                value={formData.instagram}
+                onChange={handleChange}
+                placeholder="Instagram URL"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>
+                YouTube URL
+              </label>
+
+              <input
+                name="youtube"
+                value={formData.youtube}
+                onChange={handleChange}
+                placeholder="YouTube URL"
+              />
+            </div>
+
+            <div className="form-group full-width">
+              <label>
+                Footer Text
+              </label>
+
+              <textarea
+                rows="5"
+                name="footerText"
+                value={formData.footerText}
+                onChange={handleChange}
+                placeholder="Footer text"
+              />
+            </div>
+
+          </div>
 
           <button
             type="submit"
+            className="save-btn"
+            disabled={loading}
           >
             {loading
               ? "Saving..."
               : "Save Settings"}
           </button>
+
         </form>
       </div>
     </AdminLayout>

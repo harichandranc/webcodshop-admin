@@ -1,38 +1,152 @@
 .settings-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.settings-header h1 {
+  color: #fff;
+  font-size: 32px;
+  margin-bottom: 5px;
+}
+
+.settings-header p {
+  color: #94a3b8;
+}
+
+/* CARD */
+
+.settings-form {
+  background: linear-gradient(
+    145deg,
+    #0f172a,
+    #111827
+  );
+
+  border: 1px solid rgba(
+    255,
+    255,
+    255,
+    0.08
+  );
+
+  border-radius: 18px;
+
   padding: 24px;
 }
 
-.settings-page h1 {
-  margin-bottom: 20px;
-}
+/* GRID */
 
-.settings-form {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 20px;
-
+.settings-grid {
   display: grid;
-  gap: 16px;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 18px;
 }
 
-.settings-form input,
-.settings-form textarea {
-  padding: 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
+.form-group {
+  display: flex;
+  flex-direction: column;
 }
 
-.settings-form textarea {
-  min-height: 120px;
+.full-width {
+  grid-column: 1 / -1;
 }
 
-.settings-form button {
-  width: fit-content;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 8px;
-  background: #2563eb;
+.form-group label {
+  color: #cbd5e1;
+
+  margin-bottom: 8px;
+
+  font-size: 14px;
+}
+
+/* INPUTS */
+
+.form-group input,
+.form-group textarea {
+  background: #020817;
+
+  border: 1px solid rgba(
+    255,
+    255,
+    255,
+    0.08
+  );
+
   color: white;
+
+  border-radius: 12px;
+
+  padding: 12px 14px;
+
+  outline: none;
+
+  transition: all 0.25s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #3b82f6;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(
+      59,
+      130,
+      246,
+      0.15
+    );
+}
+
+/* BUTTON */
+
+.save-btn {
+  margin-top: 24px;
+
+  border: none;
+
   cursor: pointer;
+
+  padding: 12px 20px;
+
+  border-radius: 12px;
+
+  font-weight: 600;
+
+  background: linear-gradient(
+    135deg,
+    #3b82f6,
+    #22d3ee
+  );
+
+  color: #000;
+
+  transition: 0.25s;
+}
+
+.save-btn:hover {
+  transform: translateY(-2px);
+}
+
+.save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full-width {
+    grid-column: auto;
+  }
 }
