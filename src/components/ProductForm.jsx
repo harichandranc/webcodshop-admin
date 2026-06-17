@@ -22,6 +22,8 @@ export default function ProductForm({
 
   const [imageFiles, setImageFiles] =
     useState([]);
+  
+  const [thumbnailIndex, setThumbnailIndex,] = useState(0);
 
   const [
     downloadUpload,
@@ -272,40 +274,81 @@ export default function ProductForm({
       )}
 
       <div className="form-group">
-        <label>
-          Product Images
-        </label>
+  <label>Product Images</label>
 
-        <input
-          type="file"
-          accept="image/*"
-          multiple
-          onChange={(e) =>
-            setImageFiles(
-              Array.from(
-                e.target.files
-              )
-            )
-          }
-        />
+  <input
+    type="file"
+    accept="image/*"
+    multiple
+    onChange={(e) => {
+      const files = Array.from(e.target.files);
 
-        {initialData?.images
-          ?.length > 0 && (
-          <p
+      setImageFiles(files);
+      setThumbnailIndex(0);
+    }}
+  />
+
+  {imageFiles.length > 0 && (
+    <>
+      <p
+        style={{
+          marginTop: "12px",
+          fontWeight: "600",
+        }}
+      >
+        Selected Thumbnail
+      </p>
+
+      <div
+        style={{
+          display: "flex",
+          gap: "10px",
+          flexWrap: "wrap",
+          marginTop: "10px",
+        }}
+      >
+        {imageFiles.map((file, index) => (
+          <div
+            key={index}
+            onClick={() => setThumbnailIndex(index)}
             style={{
-              marginTop: "8px",
-              fontSize: "14px",
+              border:
+                thumbnailIndex === index
+                  ? "3px solid #2563eb"
+                  : "1px solid #ddd",
+              cursor: "pointer",
+              padding: "4px",
+              borderRadius: "8px",
             }}
           >
-            Current Images:
-            {" "}
-            {
-              initialData.images
-                .length
-            }
-          </p>
-        )}
+            <img
+              src={URL.createObjectURL(file)}
+              alt=""
+              width="100"
+              height="80"
+              style={{
+                objectFit: "cover",
+              }}
+            />
+
+            {thumbnailIndex === index && (
+              <p
+                style={{
+                  textAlign: "center",
+                  color: "#2563eb",
+                  fontWeight: "600",
+                  marginTop: "5px",
+                }}
+              >
+                Thumbnail
+              </p>
+            )}
+          </div>
+        ))}
       </div>
+    </>
+  )}
+</div>
 
       <div className="form-group">
         <label>

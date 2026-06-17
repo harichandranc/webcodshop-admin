@@ -117,6 +117,11 @@ function ProductsPage() {
 
         images,
 
+        thumbnailImage:
+          images[
+            data.thubnailIndex || 0
+          ] || "",
+
         category:
           data.category,
 
@@ -221,6 +226,13 @@ function ProductsPage() {
           title: data.title,
 
           images,
+
+          thubnailImage:
+            images[
+              data.thubnailIndex || 0
+            ] ||
+            editingProduct.thubnailImage ||
+            "",
 
           category:
             data.category,
