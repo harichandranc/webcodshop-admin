@@ -101,6 +101,7 @@ export default function ProductForm({
     onSubmit({
       ...formData,
       imageFiles,
+      thumbnailIndex,
       downloadUpload,
       projectReportUpload,
     });

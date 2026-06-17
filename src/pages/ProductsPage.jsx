@@ -231,7 +231,7 @@ function ProductsPage() {
             images[
               data.thubnailIndex || 0
             ] ||
-            editingProduct.thubnailImage ||
+            editingProduct.thubmnailImage ||
             "",
 
           category:
