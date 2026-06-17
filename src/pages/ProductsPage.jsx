@@ -184,8 +184,8 @@ function ProductsPage() {
       let images =
         editingProduct.images || [];
 
-      let thumbnailFile =
-        editingProduct.thumbnailImage || "";
+      let thumbnailImage =
+        editingProduct.thumbnailImage|| "";
 
       let downloadFile =
         editingProduct.downloadFile || "";
