@@ -4,7 +4,7 @@ import "../styles/orders.css";
 
 import {
   getOrders,
-  updateOrderStatus,
+  downloadInvoice,
 } from "../api/orderApi";
 
 function OrdersPage() {
@@ -65,6 +65,7 @@ function OrdersPage() {
                   <th>Product</th>
                   <th>Amount</th>
                   <th>Status</th>
+                  <th>Invoice</th>
                 </tr>
               </thead>
 
@@ -88,6 +89,23 @@ function OrdersPage() {
                         {order.status}
                       </span>
                     </td>
+                    
+                    <td>
+                      {order.invoicePath ? (
+                        <button
+                          onClick={() =>
+                            downloadInvoice(
+                              order._id
+                            )  
+                          }
+                        >
+                          Download Invoive 
+                        </button>
+                      ) : (
+                        "N/A"
+                      )}
+                    </td>
+                    
                   </tr>
                 ))}
               </tbody>
