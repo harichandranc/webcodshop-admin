@@ -65,7 +65,6 @@ function OrdersPage() {
                   <th>Product</th>
                   <th>Amount</th>
                   <th>Status</th>
-                  <th>Update</th>
                 </tr>
               </thead>
 
@@ -88,24 +87,6 @@ function OrdersPage() {
                       <span className={`badge ${order.status}`}>
                         {order.status}
                       </span>
-                    </td>
-
-                    <td>
-                      <select
-                        className="select"
-                        value={order.status}
-                        onChange={(e) =>
-                          handleStatusChange(
-                            order._id,
-                            e.target.value
-                          )
-                        }
-                      >
-                        <option value="pending">Pending</option>
-                        <option value="paid">Paid</option>
-                        <option value="completed">Completed</option>
-                        <option value="cancelled">Cancelled</option>
-                      </select>
                     </td>
                   </tr>
                 ))}
