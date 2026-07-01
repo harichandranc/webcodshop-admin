@@ -9,6 +9,7 @@ import CustomersPage from "../pages/CustomersPage";
 import CouponsPage from "../pages/CouponsPage";
 import BannersPage from "../pages/BannersPage";
 import SettingsPage from "../pages/SettingsPage";
+import ProductRequestsPage from "../pages/ProductRequests";
 
 import ProtectedRoute from "../components/ProtectedRoute";
 
@@ -88,6 +89,15 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <SettingsPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/product-requests"
+        element={
+          <ProtectedRoute>
+            <ProductRequestsPage />
           </ProtectedRoute>
         }
       />

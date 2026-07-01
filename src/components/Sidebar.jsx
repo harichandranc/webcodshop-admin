@@ -37,6 +37,10 @@ function Sidebar() {
           Banners
         </NavLink>
 
+        <NavLink to="/product-requests" className="sidebar-link">
+          Product Requests
+        </NavLink>
+
         <NavLink to="/settings" className="sidebar-link">
           Settings
         </NavLink>
