@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import "../styles/product-form.css";
 
+const API_URL = "https://api.webcodshop.chtechgiant.com";
+
 export default function ProductForm({
   onSubmit,
   loading,
@@ -48,12 +50,18 @@ export default function ProductForm({
   }, [initialData]);
 
   const thumbnailPreview = useMemo(() => {
-    if (thumbnailFile) {
-      return URL.createObjectURL(thumbnailFile);
-    }
+  if (thumbnailFile) {
+    return URL.createObjectURL(thumbnailFile);
+  }
 
-    return initialData?.thumbnail || "";
-  }, [thumbnailFile, initialData]);
+  if (!initialData?.thumbnailImage) {
+    return "";
+  }
+
+  return initialData.thumbnailImage.startsWith("http")
+    ? initialData.thumbnailImage
+    : `${API_URL}${initialData.thumbnailImage}`;
+}, [thumbnailFile, initialData]);
 
   const newImagePreviews = useMemo(() => {
     return imageFiles.map((file) => ({
@@ -275,7 +283,11 @@ export default function ProductForm({
                     }}
                   >
                     <img
-                      src={image}
+                      src={
+                        image.startsWith("http")
+                          ? image
+                          : `https://api.webcodshop.chtechgiant.com${image}`
+                      }
                       alt=""
                       style={{
                         width: "100%",
