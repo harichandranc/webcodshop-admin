@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "../styles/product-form.css";
 
 export default function ProductForm({
@@ -21,6 +21,8 @@ export default function ProductForm({
 
   const [thumbnailFile, setThumbnailFile] = useState(null);
   const [imageFiles, setImageFiles] = useState([]);
+  const [existingImages, setExistingImages] = useState([]);
+
   const [downloadUpload, setDownloadUpload] = useState(null);
   const [projectReportUpload, setProjectReportUpload] = useState(null);
   const [setupGuideUpload, setSetupGuideUpload] = useState(null);
@@ -39,18 +41,54 @@ export default function ProductForm({
       isFeatured: initialData.isFeatured || false,
       isActive: initialData.isActive ?? true,
     });
+
+    setExistingImages(initialData.images || []);
+    setThumbnailFile(null);
+    setImageFiles([]);
   }, [initialData]);
+
+  const thumbnailPreview = useMemo(() => {
+    if (thumbnailFile) {
+      return URL.createObjectURL(thumbnailFile);
+    }
+
+    return initialData?.thumbnail || "";
+  }, [thumbnailFile, initialData]);
+
+  const newImagePreviews = useMemo(() => {
+    return imageFiles.map((file) => ({
+      file,
+      url: URL.createObjectURL(file),
+    }));
+  }, [imageFiles]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
     setFormData((prev) => ({
       ...prev,
-      [name]:
-        type === "checkbox"
-          ? checked
-          : value,
+      [name]: type === "checkbox" ? checked : value,
     }));
+  };
+
+  const removeExistingImage = (index) => {
+    setExistingImages((prev) =>
+      prev.filter((_, i) => i !== index)
+    );
+  };
+
+  const removeNewImage = (index) => {
+    setImageFiles((prev) =>
+      prev.filter((_, i) => i !== index)
+    );
+  };
+
+  const handleNewImages = (e) => {
+    const files = Array.from(e.target.files || []);
+
+    setImageFiles((prev) => [...prev, ...files]);
+
+    e.target.value = "";
   };
 
   const handleSubmit = (e) => {
@@ -60,6 +98,7 @@ export default function ProductForm({
       ...formData,
       thumbnailFile,
       imageFiles,
+      existingImages,
       downloadUpload,
       projectReportUpload,
       setupGuideUpload,
@@ -67,10 +106,7 @@ export default function ProductForm({
   };
 
   return (
-    <form
-      className="product-form"
-      onSubmit={handleSubmit}
-    >
+    <form className="product-form" onSubmit={handleSubmit}>
       <div className="product-grid">
         <div className="form-group">
           <label>Title</label>
@@ -93,9 +129,7 @@ export default function ProductForm({
             onChange={handleChange}
             required
           >
-            <option value="">
-              Select Category
-            </option>
+            <option value="">Select Category</option>
 
             {categories.map((category) => (
               <option
@@ -138,16 +172,12 @@ export default function ProductForm({
             type="file"
             accept=".pdf"
             onChange={(e) =>
-              setSetupGuideUpload(
-                e.target.files[0]
-              )
+              setSetupGuideUpload(e.target.files[0])
             }
           />
 
           {initialData?.setupGuidePdf && (
-            <small>
-              Current PDF available
-            </small>
+            <small>Current PDF available</small>
           )}
         </div>
 
@@ -158,21 +188,16 @@ export default function ProductForm({
             type="file"
             accept=".zip,.rar,.7z,.pdf"
             onChange={(e) =>
-              setDownloadUpload(
-                e.target.files[0]
-              )
+              setDownloadUpload(e.target.files[0])
             }
           />
 
           {initialData?.downloadFile && (
-            <small>
-              Current file available
-            </small>
+            <small>Current file available</small>
           )}
         </div>
 
-        {formData.category ===
-          "College Project" && (
+        {formData.category === "College Project" && (
           <div className="form-group">
             <label>Project Report</label>
 
@@ -180,16 +205,12 @@ export default function ProductForm({
               type="file"
               accept=".pdf,.doc,.docx"
               onChange={(e) =>
-                setProjectReportUpload(
-                  e.target.files[0]
-                )
+                setProjectReportUpload(e.target.files[0])
               }
             />
 
             {initialData?.projectReport && (
-              <small>
-                Current report available
-              </small>
+              <small>Current report available</small>
             )}
           </div>
         )}
@@ -201,43 +222,179 @@ export default function ProductForm({
             type="file"
             accept="image/*"
             onChange={(e) =>
-              setThumbnailFile(
-                e.target.files[0]
-              )
+              setThumbnailFile(e.target.files[0])
             }
           />
 
-          {thumbnailFile && (
+          {thumbnailPreview && (
             <img
-              src={URL.createObjectURL(
-                thumbnailFile
-              )}
-              alt="thumbnail"
+              src={thumbnailPreview}
+              alt="Thumbnail Preview"
               className="preview-image"
             />
           )}
         </div>
 
-        <div className="form-group">
+        <div className="form-group full-width">
           <label>Product Images</label>
 
           <input
             type="file"
             accept="image/*"
             multiple
-            onChange={(e) =>
-              setImageFiles(
-                Array.from(
-                  e.target.files
-                )
-              )
-            }
+            onChange={handleNewImages}
           />
 
-          {imageFiles.length > 0 && (
-            <small>
-              {imageFiles.length} image(s)
-              selected
+          {existingImages.length > 0 && (
+            <>
+              <small
+                style={{
+                  display: "block",
+                  marginTop: 12,
+                  marginBottom: 8,
+                  fontWeight: 600,
+                }}
+              >
+                Current Images
+              </small>
+
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: 12,
+                }}
+              >
+                {existingImages.map((image, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      position: "relative",
+                      width: 120,
+                      height: 120,
+                    }}
+                  >
+                    <img
+                      src={image}
+                      alt=""
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        borderRadius: 8,
+                        border: "1px solid #333",
+                      }}
+                    />
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        removeExistingImage(index)
+                      }
+                      style={{
+                        position: "absolute",
+                        top: -8,
+                        right: -8,
+                        width: 24,
+                        height: 24,
+                        borderRadius: "50%",
+                        border: "none",
+                        cursor: "pointer",
+                        background: "#ff3b30",
+                        color: "#fff",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {newImagePreviews.length > 0 && (
+            <>
+              <small
+                style={{
+                  display: "block",
+                  marginTop: 20,
+                  marginBottom: 8,
+                  fontWeight: 600,
+                }}
+              >
+                New Images
+              </small>
+
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: 12,
+                }}
+              >
+                {newImagePreviews.map(
+                  ({ url }, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        position: "relative",
+                        width: 120,
+                        height: 120,
+                      }}
+                    >
+                      <img
+                        src={url}
+                        alt=""
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          borderRadius: 8,
+                          border:
+                            "1px solid #333",
+                        }}
+                      />
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          removeNewImage(index)
+                        }
+                        style={{
+                          position: "absolute",
+                          top: -8,
+                          right: -8,
+                          width: 24,
+                          height: 24,
+                          borderRadius: "50%",
+                          border: "none",
+                          cursor: "pointer",
+                          background: "#ff3b30",
+                          color: "#fff",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  )
+                )}
+              </div>
+            </>
+          )}
+
+          {(existingImages.length > 0 ||
+            imageFiles.length > 0) && (
+            <small
+              style={{
+                display: "block",
+                marginTop: 12,
+              }}
+            >
+              Existing Images: {existingImages.length}
+              {" | "}
+              New Images: {imageFiles.length}
             </small>
           )}
         </div>
