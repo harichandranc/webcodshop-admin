@@ -1,25 +1,33 @@
 import axios from "axios";
 
-const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-});
-
-API.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  return config;
-});
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const getProductRequests = async () => {
-  const response = await API.get("/product-requests");
+  const token = localStorage.getItem("token");
+
+  const response = await axios.get(
+    `${API_URL}/api/product-requests`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
   return response.data;
 };
 
 export const deleteProductRequest = async (id) => {
-  const response = await API.delete(`/product-requests/${id}`);
+  const token = localStorage.getItem("token");
+
+  const response = await axios.delete(
+    `${API_URL}/api/product-requests/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
   return response.data;
 };
