@@ -77,7 +77,7 @@ function ProductsPage() {
       let thumbnailImage = ""
       let downloadFile = "";
       let projectReport = "";
-      let setupGuide = "";
+      let setupGuidePdf = "";
 
       if (data.thumbnailFile) {
         const uploadRes =
@@ -133,7 +133,7 @@ function ProductsPage() {
             data.setupGuideUpload
           );
 
-        setupGuide =
+        setupGuidePdf =
           uploadRes.fileUrl;
       }
 
@@ -285,15 +285,11 @@ function ProductsPage() {
           description:
             data.description,
 
-
           downloadFile,
 
           projectReport,
 
           setupGuidePdf,
-
-          setupGuide:
-            data.setupGuide,
 
           isFeatured:
             data.isFeatured,
