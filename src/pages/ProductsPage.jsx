@@ -11,6 +11,7 @@ import {
   uploadImage,
   uploadDownloadFile,
   uploadProjectReport,
+  uploadSetupGuide,
   updateProduct,
   deleteProduct,
 } from "../api/productApi";
@@ -76,6 +77,7 @@ function ProductsPage() {
       let thumbnailImage = ""
       let downloadFile = "";
       let projectReport = "";
+      let setupGuide = "";
 
       if (data.thumbnailFile) {
         const uploadRes =
@@ -123,6 +125,18 @@ function ProductsPage() {
           uploadRes.fileUrl;
       }
 
+      if (
+        data.setupGuideUpload
+      ) {
+        const uploadRes =
+          await uploadSetupGuide(
+            data.setupGuideUpload
+          );
+
+        setupGuide =
+          uploadRes.fileUrl;
+      }
+
       await createProduct({
         title: data.title,
 
@@ -140,15 +154,11 @@ function ProductsPage() {
         description:
           data.description,
 
-        previewUrl:
-          data.previewUrl,
-
         downloadFile,
 
-        projectReport,
+        setupGuidePdf,
 
-        setupGuide:
-          data.setupGuide,
+        projectReport,
 
         isFeatured:
           data.isFeatured,
@@ -192,6 +202,9 @@ function ProductsPage() {
 
       let projectReport =
         editingProduct.projectReport || "";
+
+      let setupGuidePdf =
+        editingProduct.setupGuidePdf || "";
 
       if (data.thumbnailFile) {
         const uploadRes =
@@ -241,6 +254,18 @@ function ProductsPage() {
           uploadRes.fileUrl;
       }
 
+      if (
+        data.setupGuideUpload
+      ) {
+        const uploadRes =
+          await uploadSetupGuide(
+            data.setupGuideUpload
+          );
+
+        setupGuidePdf =
+          uploadRes.fileUrl;
+      }
+
       await updateProduct(
         editingProduct._id,
         {
@@ -260,12 +285,12 @@ function ProductsPage() {
           description:
             data.description,
 
-          previewUrl:
-            data.previewUrl,
 
           downloadFile,
 
           projectReport,
+
+          setupGuidePdf,
 
           setupGuide:
             data.setupGuide,

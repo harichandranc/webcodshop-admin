@@ -12,10 +12,9 @@ export default function ProductForm({
     category: "",
     price: "",
     description: "",
-    previewUrl: "",
     downloadFile: "",
     projectReport: "",
-    setupGuide: "",
+    setupGuidePdf: "",
     isFeatured: false,
     isActive: true,
   });
@@ -24,6 +23,7 @@ export default function ProductForm({
   const [imageFiles, setImageFiles] = useState([]);
   const [downloadUpload, setDownloadUpload] = useState(null);
   const [projectReportUpload, setProjectReportUpload] = useState(null);
+  const [setupGuideUpload, setSetupGuideUpload] = useState(null);
 
   useEffect(() => {
     if (!initialData) return;
@@ -33,10 +33,9 @@ export default function ProductForm({
       category: initialData.category || "",
       price: initialData.price || "",
       description: initialData.description || "",
-      previewUrl: initialData.previewUrl || "",
       downloadFile: initialData.downloadFile || "",
       projectReport: initialData.projectReport || "",
-      setupGuide: initialData.setupGuide || "",
+      setupGuidePdf: initialData.setupGuidePdf || "",
       isFeatured: initialData.isFeatured || false,
       isActive: initialData.isActive ?? true,
     });
@@ -63,6 +62,7 @@ export default function ProductForm({
       imageFiles,
       downloadUpload,
       projectReportUpload,
+      setupGuideUpload,
     });
   };
 
@@ -120,17 +120,6 @@ export default function ProductForm({
           />
         </div>
 
-        <div className="form-group">
-          <label>Preview Video URL</label>
-
-          <input
-            type="text"
-            name="previewUrl"
-            value={formData.previewUrl}
-            onChange={handleChange}
-          />
-        </div>
-
         <div className="form-group full-width">
           <label>Description</label>
 
@@ -142,15 +131,24 @@ export default function ProductForm({
           />
         </div>
 
-        <div className="form-group full-width">
-          <label>Setup Guide</label>
+        <div className="form-group">
+          <label>Setup Guide PDF</label>
 
-          <textarea
-            name="setupGuide"
-            rows="4"
-            value={formData.setupGuide}
-            onChange={handleChange}
+          <input
+            type="file"
+            accept=".pdf"
+            onChange={(e) =>
+              setSetupGuideUpload(
+                e.target.files[0]
+              )
+            }
           />
+
+          {initialData?.setupGuidePdf && (
+            <small>
+              Current PDF available
+            </small>
+          )}
         </div>
 
         <div className="form-group">
@@ -174,7 +172,7 @@ export default function ProductForm({
         </div>
 
         {formData.category ===
-          "College Projects" && (
+          "College Project" && (
           <div className="form-group">
             <label>Project Report</label>
 
