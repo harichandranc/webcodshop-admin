@@ -22,12 +22,25 @@ export default function ProductForm({
   });
 
   const [thumbnailFile, setThumbnailFile] = useState(null);
+
   const [imageFiles, setImageFiles] = useState([]);
+
   const [existingImages, setExistingImages] = useState([]);
 
-  const [downloadUpload, setDownloadUpload] = useState(null);
-  const [projectReportUpload, setProjectReportUpload] = useState(null);
-  const [setupGuideUpload, setSetupGuideUpload] = useState(null);
+  const [dragExistingIndex, setDragExistingIndex] =
+    useState(null);
+
+  const [dragNewIndex, setDragNewIndex] =
+    useState(null);
+
+  const [downloadUpload, setDownloadUpload] =
+    useState(null);
+
+  const [projectReportUpload, setProjectReportUpload] =
+    useState(null);
+
+  const [setupGuideUpload, setSetupGuideUpload] =
+    useState(null);
 
   useEffect(() => {
     if (!initialData) return;
@@ -90,6 +103,74 @@ export default function ProductForm({
       prev.filter((_, i) => i !== index)
     );
   };
+
+  /* ==========================================
+   Existing Images Drag & Drop
+========================================== */
+
+const handleExistingDragStart = (index) => {
+  setDragExistingIndex(index);
+};
+
+const handleExistingDrop = (dropIndex) => {
+  if (
+    dragExistingIndex === null ||
+    dragExistingIndex === dropIndex
+  ) {
+    return;
+  }
+
+  const updated = [...existingImages];
+
+  const draggedItem =
+    updated[dragExistingIndex];
+
+  updated.splice(dragExistingIndex, 1);
+
+  updated.splice(dropIndex, 0, draggedItem);
+
+  setExistingImages(updated);
+
+  setDragExistingIndex(null);
+};
+
+const handleExistingDragEnd = () => {
+  setDragExistingIndex(null);
+};
+
+/* ==========================================
+   New Images Drag & Drop
+========================================== */
+
+const handleNewDragStart = (index) => {
+  setDragNewIndex(index);
+};
+
+const handleNewDrop = (dropIndex) => {
+  if (
+    dragNewIndex === null ||
+    dragNewIndex === dropIndex
+  ) {
+    return;
+  }
+
+  const updated = [...imageFiles];
+
+  const draggedItem =
+    updated[dragNewIndex];
+
+  updated.splice(dragNewIndex, 1);
+
+  updated.splice(dropIndex, 0, draggedItem);
+
+  setImageFiles(updated);
+
+  setDragNewIndex(null);
+};
+
+const handleNewDragEnd = () => {
+  setDragNewIndex(null);
+};
 
   const handleNewImages = (e) => {
     const files = Array.from(e.target.files || []);
@@ -274,53 +355,72 @@ export default function ProductForm({
                 }}
               >
                 {existingImages.map((image, index) => (
-                  <div
-                    key={index}
+                <div
+                  key={index}
+                  draggable
+                  onDragStart={() =>
+                    handleExistingDragStart(index)
+                  }
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={() =>
+                    handleExistingDrop(index)
+                  }
+                  onDragEnd={handleExistingDragEnd}
+                  style={{
+                    position: "relative",
+                    width: 120,
+                    height: 120,
+                    cursor: "grab",
+                    opacity:
+                      dragExistingIndex === index
+                        ? 0.45
+                        : 1,
+                    transform:
+                      dragExistingIndex === index
+                        ? "scale(0.95)"
+                        : "scale(1)",
+                    transition: "all .2s ease",
+                  }}
+                >
+                  <img
+                    src={
+                      image.startsWith("http")
+                        ? image
+                        : `https://api.webcodshop.chtechgiant.com${image}`
+                    }
+                    alt=""
                     style={{
-                      position: "relative",
-                      width: 120,
-                      height: 120,
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      borderRadius: 8,
+                      border: "1px solid #333",
+                    }}
+                  />
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      removeExistingImage(index)
+                    }
+                    style={{
+                      position: "absolute",
+                      top: -8,
+                      right: -8,
+                      width: 24,
+                      height: 24,
+                      borderRadius: "50%",
+                      border: "none",
+                      cursor: "pointer",
+                      background: "#ff3b30",
+                      color: "#fff",
+                      fontWeight: "bold",
                     }}
                   >
-                    <img
-                      src={
-                        image.startsWith("http")
-                          ? image
-                          : `https://api.webcodshop.chtechgiant.com${image}`
-                      }
-                      alt=""
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        borderRadius: 8,
-                        border: "1px solid #333",
-                      }}
-                    />
-
-                    <button
-                      type="button"
-                      onClick={() =>
-                        removeExistingImage(index)
-                      }
-                      style={{
-                        position: "absolute",
-                        top: -8,
-                        right: -8,
-                        width: 24,
-                        height: 24,
-                        borderRadius: "50%",
-                        border: "none",
-                        cursor: "pointer",
-                        background: "#ff3b30",
-                        color: "#fff",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      ✕
-                    </button>
-                  </div>
-                ))}
+                    ✕
+                  </button>
+                </div>
+              ))}
               </div>
             </>
           )}
@@ -349,10 +449,31 @@ export default function ProductForm({
                   ({ url }, index) => (
                     <div
                       key={index}
+                      draggable
+                      onDragStart={() =>
+                        handleNewDragStart(index)
+                      }
+                      onDragOver={(e) =>
+                        e.preventDefault()
+                      }
+                      onDrop={() =>
+                        handleNewDrop(index)
+                      }
+                      onDragEnd={handleNewDragEnd}
                       style={{
                         position: "relative",
                         width: 120,
                         height: 120,
+                        cursor: "grab",
+                        opacity:
+                          dragNewIndex === index
+                            ? 0.45
+                            : 1,
+                        transform:
+                          dragNewIndex === index
+                            ? "scale(0.95)"
+                            : "scale(1)",
+                        transition: "all .2s ease",
                       }}
                     >
                       <img
@@ -363,8 +484,7 @@ export default function ProductForm({
                           height: "100%",
                           objectFit: "cover",
                           borderRadius: 8,
-                          border:
-                            "1px solid #333",
+                          border: "1px solid #333",
                         }}
                       />
 
