@@ -216,19 +216,17 @@ function ProductsPage() {
           uploadRes.imageUrl;
       }
 
+      images = [...(data.existingImages || [])];
+
       if (
         data.imageFiles &&
         data.imageFiles.length > 0
       ) {
-        images = [];
-
         for (const file of data.imageFiles) {
           const uploadRes =
             await uploadImage(file);
 
-          images.push(
-            uploadRes.imageUrl
-          );
+          images.push(uploadRes.imageUrl);
         }
       }
 
@@ -422,6 +420,7 @@ function ProductsPage() {
                     <button
                       className="action-btn edit-btn"
                       onClick={() => {
+                        console.log("Editing product:", product);
                         setEditingProduct(product);
                         setShowEditModal(true);
                       }}
